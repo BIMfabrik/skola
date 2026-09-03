@@ -1,58 +1,75 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#f7f6ff">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Skola</title>
-<link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#eef2ff" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Skola" />
+  <meta name="format-detection" content="telephone=no" />
+  <title>Skola</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<div class="app">
-<header class="topbar">
-<button class="home-mark" id="homeButton" aria-label="Home"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 14 24 6l15 8v20l-15 8-15-8z"/><circle cx="24" cy="24" r="8"/></svg></button>
-<div class="score"><span>★</span><strong id="starCount">0</strong></div>
-<button class="avatar" aria-label="Profile"><span></span><i></i></button>
-</header>
-<nav class="subjects" aria-label="Subjects">
-<button class="subject active" data-subject="geometry" aria-label="Geometry"><span class="ico geo"><i></i><b></b><em></em></span></button>
-<button class="subject" data-subject="numbers" aria-label="Numbers"><span class="ico nums"><i></i><b></b><em></em></span></button>
-<button class="subject" data-subject="patterns" aria-label="Patterns"><span class="ico pattern"><i></i><b></b><em></em></span></button>
-<button class="subject" data-subject="nature" aria-label="Nature"><span class="ico leaf"><i></i></span></button>
-<button class="subject" data-subject="logic" aria-label="Logic"><span class="ico puzzle"><i></i><b></b></span></button>
-</nav>
-<main>
-<section class="geometry-stage" aria-label="Geometry learning path">
-<div class="big-emblem" aria-hidden="true"><span class="big-circle"></span><span class="big-square"></span><span class="big-triangle"></span></div>
-<div class="progress-dots" id="progressDots" aria-hidden="true"></div>
-<div class="path" id="levelPath">
-<button class="level" data-level="1" aria-label="Level 1"><span class="level-art shapes"><i></i><b></b><em></em></span><span class="mini-stars"></span></button>
-<button class="level" data-level="2" aria-label="Level 2"><span class="level-art fraction"><i></i></span><span class="mini-stars"></span></button>
-<button class="level" data-level="3" aria-label="Level 3"><span class="level-art mirror"><i></i><b></b></span><span class="mini-stars"></span></button>
-<button class="level" data-level="4" aria-label="Level 4"><span class="level-art edge"><i></i></span><span class="mini-stars"></span></button>
-<button class="level" data-level="5" aria-label="Level 5"><span class="level-art tiles"><i></i></span><span class="mini-stars"></span></button>
-<button class="level" data-level="6" aria-label="Level 6"><span class="level-art corner"><i></i><b></b></span><span class="mini-stars"></span></button>
-<button class="level" data-level="7" aria-label="Level 7"><span class="level-art tri"><i></i></span><span class="mini-stars"></span></button>
-<button class="level" data-level="8" aria-label="Level 8"><span class="level-art grid"><i></i></span><span class="mini-stars"></span></button>
-<button class="level" data-level="9" aria-label="Level 9"><span class="level-art pyth"><i></i><b></b><em></em></span><span class="mini-stars"></span></button>
-<button class="level" data-level="10" aria-label="Level 10"><span class="level-art trig"><i></i><b></b></span><span class="mini-stars"></span></button>
-</div>
-</section>
-</main>
-</div>
-<div class="game" id="game" aria-hidden="true">
-<section class="game-card" role="dialog" aria-modal="true">
-<header class="game-head"><button id="closeGame" class="close" aria-label="Close">×</button><div class="game-progress" id="gameProgress"></div><div class="game-stars"><span>★</span><strong id="gameStars">0</strong></div></header>
-<div class="game-body">
-<div class="target-wrap"><div class="target-pulse"></div><div id="target" class="target"></div></div>
-<div class="gesture" id="gesture" aria-hidden="true"><span>☝︎</span></div>
-<div class="choices" id="choices"></div>
-</div>
-</section>
-</div>
-<div class="sparkles" id="sparkles" aria-hidden="true"></div>
-<script src="app.js"></script>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand" id="homeButton" aria-label="Skola home">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44"><path d="M9 12.5 22 5l13 7.5v16L22 36 9 28.5z"/><path d="M15 16.2 22 12l7 4.2v8.6L22 29l-7-4.2z"/></svg></span>
+        <span>skola</span>
+      </button>
+      <div class="topbar-actions">
+        <div class="metric" aria-label="stars earned"><span class="metric-star">★</span><strong id="starCount">0</strong></div>
+        <button class="icon-button" id="soundButton" aria-label="toggle sound">♪</button>
+      </div>
+    </header>
+
+    <main class="main-scene">
+      <section class="world-stage" aria-label="progress world">
+        <div class="world-sky"></div>
+        <div class="builder" id="builder" aria-hidden="true">
+          <div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
+          <div class="island"></div>
+          <div class="mascot"><i></i><b></b><em></em></div>
+          <i class="build-piece tree"></i>
+          <i class="build-piece house"></i>
+          <i class="build-piece roof"></i>
+          <i class="build-piece bridge"></i>
+          <i class="build-piece wheel"></i>
+          <i class="build-piece sun"></i>
+          <i class="build-piece flag"></i>
+        </div>
+      </section>
+
+      <nav class="world-tabs" aria-label="learning worlds">
+        <button class="world-tab active" data-world="math" aria-label="Math"><span class="world-icon icon-math" aria-hidden="true"></span></button>
+        <button class="world-tab" data-world="music" aria-label="Music"><span class="world-icon icon-music" aria-hidden="true"></span></button>
+        <button class="world-tab" data-world="physics" aria-label="Physics"><span class="world-icon icon-physics" aria-hidden="true"></span></button>
+        <button class="world-tab" data-world="chemistry" aria-label="Chemistry"><span class="world-icon icon-chemistry" aria-hidden="true"></span></button>
+        <button class="world-tab" data-world="nature" aria-label="Nature"><span class="world-icon icon-nature" aria-hidden="true"></span></button>
+      </nav>
+
+      <section class="activity-grid" id="activityGrid" aria-label="activities"></section>
+    </main>
+  </div>
+
+  <div class="game-overlay" id="gameOverlay" aria-hidden="true">
+    <section class="game-sheet" role="dialog" aria-modal="true" aria-label="learning game">
+      <header class="game-header">
+        <button class="icon-button close-button" id="closeGame" aria-label="close">×</button>
+        <div class="game-progress" id="gameProgress" aria-label="game progress"></div>
+        <div class="metric compact"><span class="metric-star">★</span><strong id="overlayStars">0</strong></div>
+      </header>
+      <div class="game-body">
+        <div class="stage-target" id="stageTarget"></div>
+        <div class="stage-board" id="stageBoard"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
+  <script src="app.js"></script>
 </body>
 </html>
