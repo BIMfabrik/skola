@@ -1,189 +1,58 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#f6f7fb" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Skola" />
-  <meta name="format-detection" content="telephone=no" />
-  <title>Skola — Learn by playing</title>
-  <link rel="stylesheet" href="styles.css" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#f7f6ff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Skola</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <button class="brand" id="homeButton" aria-label="Skola home">
-        <span class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 44 44"><path d="M9 12.5 22 5l13 7.5v16L22 36 9 28.5z"/><path d="M15 16.2 22 12l7 4.2v8.6L22 29l-7-4.2z"/></svg>
-        </span>
-        <span>skola</span>
-      </button>
-      <div class="topbar-actions">
-        <div class="metric" aria-label="3 day streak"><span class="metric-icon">🔥</span><strong>3</strong></div>
-        <div class="metric" aria-label="24 stars"><span class="metric-icon">★</span><strong id="starCount">24</strong></div>
-        <button class="profile" aria-label="Profile for learner"><span>J</span></button>
-      </div>
-    </header>
-
-    <nav class="subject-tabs" aria-label="Learning subjects">
-      <button class="subject active" data-subject="geometry" aria-current="page">
-        <span class="subject-icon geometry-icon" aria-hidden="true"><i></i><b></b></span>
-        <span>Geometry</span>
-      </button>
-      <button class="subject" data-subject="numbers">
-        <span class="subject-emoji" aria-hidden="true">123</span><span>Numbers</span>
-      </button>
-      <button class="subject" data-subject="words">
-        <span class="subject-emoji" aria-hidden="true">Aa</span><span>Words</span>
-      </button>
-      <button class="subject" data-subject="nature">
-        <span class="subject-emoji" aria-hidden="true">⌁</span><span>Nature</span>
-      </button>
-      <button class="subject" data-subject="logic">
-        <span class="subject-emoji" aria-hidden="true">◇</span><span>Logic</span>
-      </button>
-    </nav>
-
-    <main>
-      <section class="hero" id="hero">
-        <div class="hero-copy">
-          <div class="eyebrow">YOUR ADVENTURE</div>
-          <h1>Geometry</h1>
-          <p>See it. Touch it. Understand it.</p>
-          <div class="progress-wrap" aria-label="Geometry progress">
-            <div class="progress-track"><div class="progress-fill" id="courseProgress"></div></div>
-            <span id="progressText">2 of 10 worlds explored</span>
-          </div>
-        </div>
-        <div class="hero-art" aria-hidden="true">
-          <div class="orb orb-one"></div><div class="orb orb-two"></div>
-          <svg viewBox="0 0 290 190" role="img">
-            <path class="art-grid" d="M22 148h244M42 128h204M62 108h164M82 88h124M102 68h84"/>
-            <path class="art-grid" d="M72 43v111M112 32v122M152 26v128M192 34v120M232 49v105"/>
-            <polygon class="art-triangle" points="68,145 142,48 225,145"/>
-            <circle class="art-circle" cx="185" cy="88" r="38"/>
-            <rect class="art-square" x="83" y="86" width="63" height="63" rx="8"/>
-          </svg>
-        </div>
-      </section>
-
-      <section class="age-filter" aria-label="Age focus">
-        <span class="age-label">Learning path</span>
-        <div class="segmented" role="group" aria-label="Age band">
-          <button data-age="all" class="active">All</button>
-          <button data-age="5-6">5–6</button>
-          <button data-age="7-8">7–8</button>
-          <button data-age="9-10">9–10</button>
-          <button data-age="11-12">11–12</button>
-        </div>
-      </section>
-
-      <section class="path-section">
-        <div class="section-heading">
-          <div><span class="eyebrow">GEOMETRY PATH</span><h2>Choose a world</h2></div>
-          <button class="quiet-button" id="resetProgress">Reset demo</button>
-        </div>
-
-        <div class="level-path" id="levelPath">
-          <button class="level-card completed" data-level="1" data-age="5-6">
-            <div class="level-node"><span>✓</span></div>
-            <div class="level-visual visual-shapes" aria-hidden="true"><i></i><b></b><em></em></div>
-            <div class="level-info"><span class="level-number">WORLD 1 · AGE 5+</span><h3>Meet the shapes</h3><p>Circle, square, triangle</p></div>
-            <span class="level-stars">★★★</span>
-          </button>
-
-          <button class="level-card current" data-level="2" data-age="5-6">
-            <div class="level-node"><span>2</span></div>
-            <div class="level-visual visual-fractions" aria-hidden="true"><div class="fraction-piece"></div></div>
-            <div class="level-info"><span class="level-number">WORLD 2 · AGE 5+</span><h3>Split it!</h3><p>Halves, thirds & quarters</p></div>
-            <span class="play-pill">Play <span>›</span></span>
-          </button>
-
-          <button class="level-card" data-level="3" data-age="7-8">
-            <div class="level-node"><span>3</span></div>
-            <div class="level-visual visual-symmetry" aria-hidden="true"><i></i></div>
-            <div class="level-info"><span class="level-number">WORLD 3 · AGE 7+</span><h3>Mirror magic</h3><p>Symmetry & patterns</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card" data-level="4" data-age="7-8">
-            <div class="level-node"><span>4</span></div>
-            <div class="level-visual visual-perimeter" aria-hidden="true"><i></i></div>
-            <div class="level-info"><span class="level-number">WORLD 4 · AGE 7+</span><h3>Walk the edge</h3><p>Length & perimeter</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card" data-level="5" data-age="9-10">
-            <div class="level-node"><span>5</span></div>
-            <div class="level-visual visual-area" aria-hidden="true"><span></span></div>
-            <div class="level-info"><span class="level-number">WORLD 5 · AGE 9+</span><h3>Fill the floor</h3><p>Area & square units</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card" data-level="6" data-age="9-10">
-            <div class="level-node"><span>6</span></div>
-            <div class="level-visual visual-angle" aria-hidden="true"><i></i><b></b></div>
-            <div class="level-info"><span class="level-number">WORLD 6 · AGE 9+</span><h3>Turn & measure</h3><p>Angles in the real world</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card" data-level="7" data-age="9-10">
-            <div class="level-node"><span>7</span></div>
-            <div class="level-visual visual-triangle" aria-hidden="true"></div>
-            <div class="level-info"><span class="level-number">WORLD 7 · AGE 10+</span><h3>Triangle lab</h3><p>Types, sides & angles</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card" data-level="8" data-age="11-12">
-            <div class="level-node"><span>8</span></div>
-            <div class="level-visual visual-coordinates" aria-hidden="true"><i></i></div>
-            <div class="level-info"><span class="level-number">WORLD 8 · AGE 11+</span><h3>Map the point</h3><p>Coordinates & graphs</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card" data-level="9" data-age="11-12">
-            <div class="level-node"><span>9</span></div>
-            <div class="level-visual visual-pythagoras" aria-hidden="true"><i></i><b></b><em></em></div>
-            <div class="level-info"><span class="level-number">WORLD 9 · AGE 11+</span><h3>The secret side</h3><p>Pythagoras by pictures</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-
-          <button class="level-card finale" data-level="10" data-age="11-12">
-            <div class="level-node"><span>10</span></div>
-            <div class="level-visual visual-trig" aria-hidden="true"><span>sin</span><i></i><b>cos</b></div>
-            <div class="level-info"><span class="level-number">WORLD 10 · AGE 12</span><h3>Triangle powers</h3><p>Sine, cosine & tangent</p></div>
-            <span class="level-stars muted">☆☆☆</span>
-          </button>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <div class="lesson-overlay" id="lessonOverlay" aria-hidden="true">
-    <section class="lesson-sheet" role="dialog" aria-modal="true" aria-labelledby="lessonTitle">
-      <header class="lesson-header">
-        <button class="icon-button" id="closeLesson" aria-label="Close lesson">×</button>
-        <div class="lesson-progress"><div id="lessonProgressBar"></div></div>
-        <div class="lesson-score"><span>★</span><strong id="lessonStars">0</strong></div>
-      </header>
-      <div class="lesson-body">
-        <div class="lesson-kicker" id="lessonKicker">WORLD 2 · SPLIT IT!</div>
-        <h2 id="lessonTitle">Tap the picture that shows <strong>one half</strong>.</h2>
-        <p class="lesson-hint" id="lessonHint">One half means 2 equal pieces, with 1 piece selected.</p>
-        <div class="challenge-grid" id="challengeGrid"></div>
-      </div>
-      <footer class="lesson-footer" id="lessonFooter">
-        <div class="feedback" id="feedback" aria-live="polite"></div>
-        <button class="primary-button" id="continueButton" disabled>Check</button>
-      </footer>
-    </section>
-  </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
-
-  <script src="app.js"></script>
+<div class="app">
+<header class="topbar">
+<button class="home-mark" id="homeButton" aria-label="Home"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M9 14 24 6l15 8v20l-15 8-15-8z"/><circle cx="24" cy="24" r="8"/></svg></button>
+<div class="score"><span>★</span><strong id="starCount">0</strong></div>
+<button class="avatar" aria-label="Profile"><span></span><i></i></button>
+</header>
+<nav class="subjects" aria-label="Subjects">
+<button class="subject active" data-subject="geometry" aria-label="Geometry"><span class="ico geo"><i></i><b></b><em></em></span></button>
+<button class="subject" data-subject="numbers" aria-label="Numbers"><span class="ico nums"><i></i><b></b><em></em></span></button>
+<button class="subject" data-subject="patterns" aria-label="Patterns"><span class="ico pattern"><i></i><b></b><em></em></span></button>
+<button class="subject" data-subject="nature" aria-label="Nature"><span class="ico leaf"><i></i></span></button>
+<button class="subject" data-subject="logic" aria-label="Logic"><span class="ico puzzle"><i></i><b></b></span></button>
+</nav>
+<main>
+<section class="geometry-stage" aria-label="Geometry learning path">
+<div class="big-emblem" aria-hidden="true"><span class="big-circle"></span><span class="big-square"></span><span class="big-triangle"></span></div>
+<div class="progress-dots" id="progressDots" aria-hidden="true"></div>
+<div class="path" id="levelPath">
+<button class="level" data-level="1" aria-label="Level 1"><span class="level-art shapes"><i></i><b></b><em></em></span><span class="mini-stars"></span></button>
+<button class="level" data-level="2" aria-label="Level 2"><span class="level-art fraction"><i></i></span><span class="mini-stars"></span></button>
+<button class="level" data-level="3" aria-label="Level 3"><span class="level-art mirror"><i></i><b></b></span><span class="mini-stars"></span></button>
+<button class="level" data-level="4" aria-label="Level 4"><span class="level-art edge"><i></i></span><span class="mini-stars"></span></button>
+<button class="level" data-level="5" aria-label="Level 5"><span class="level-art tiles"><i></i></span><span class="mini-stars"></span></button>
+<button class="level" data-level="6" aria-label="Level 6"><span class="level-art corner"><i></i><b></b></span><span class="mini-stars"></span></button>
+<button class="level" data-level="7" aria-label="Level 7"><span class="level-art tri"><i></i></span><span class="mini-stars"></span></button>
+<button class="level" data-level="8" aria-label="Level 8"><span class="level-art grid"><i></i></span><span class="mini-stars"></span></button>
+<button class="level" data-level="9" aria-label="Level 9"><span class="level-art pyth"><i></i><b></b><em></em></span><span class="mini-stars"></span></button>
+<button class="level" data-level="10" aria-label="Level 10"><span class="level-art trig"><i></i><b></b></span><span class="mini-stars"></span></button>
+</div>
+</section>
+</main>
+</div>
+<div class="game" id="game" aria-hidden="true">
+<section class="game-card" role="dialog" aria-modal="true">
+<header class="game-head"><button id="closeGame" class="close" aria-label="Close">×</button><div class="game-progress" id="gameProgress"></div><div class="game-stars"><span>★</span><strong id="gameStars">0</strong></div></header>
+<div class="game-body">
+<div class="target-wrap"><div class="target-pulse"></div><div id="target" class="target"></div></div>
+<div class="gesture" id="gesture" aria-hidden="true"><span>☝︎</span></div>
+<div class="choices" id="choices"></div>
+</div>
+</section>
+</div>
+<div class="sparkles" id="sparkles" aria-hidden="true"></div>
+<script src="app.js"></script>
 </body>
 </html>

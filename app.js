@@ -1,194 +1,89 @@
-const state = {
-  selectedAge: 'all',
-  stars: Number(localStorage.getItem('skolaStars') || 24),
-  completed: new Set(JSON.parse(localStorage.getItem('skolaCompleted') || '[1]')),
-  lesson: null,
-  selectedAnswer: null,
-  checked: false,
-  lessonStars: 0,
-};
-
-const lessons = {
-  1: {
-    title: 'Meet the shapes', kicker: 'WORLD 1 · MEET THE SHAPES',
-    questions: [
-      { prompt: 'Which one is a <strong>circle</strong>?', hint: 'A circle is round and has no corners.', type:'shape', options:['square','circle','triangle','diamond'], answer:1 },
-      { prompt: 'Which one has <strong>3 sides</strong>?', hint: 'Count the straight edges.', type:'shape', options:['circle','square','diamond','triangle'], answer:3 }
-    ]
-  },
-  2: {
-    title: 'Split it!', kicker: 'WORLD 2 · SPLIT IT!',
-    questions: [
-      { prompt:'Tap the picture that shows <strong>one half</strong>.', hint:'One half means 2 equal pieces, with 1 piece selected.', type:'fraction', options:[{parts:2,fill:1},{parts:3,fill:1},{parts:4,fill:1},{parts:4,fill:2}], answer:0 },
-      { prompt:'Now find <strong>one third</strong>.', hint:'Three equal pieces. Select just one.', type:'fraction', options:[{parts:2,fill:1},{parts:3,fill:2},{parts:3,fill:1},{parts:4,fill:1}], answer:2 },
-      { prompt:'Which picture shows <strong>three quarters</strong>?', hint:'Four equal pieces, with three selected.', type:'fraction', options:[{parts:4,fill:2},{parts:4,fill:3},{parts:3,fill:2},{parts:2,fill:1}], answer:1 }
-    ]
-  },
-  3: {
-    title:'Mirror magic', kicker:'WORLD 3 · MIRROR MAGIC',
-    questions:[{ prompt:'Which shape has the clearest <strong>mirror symmetry</strong>?', hint:'Imagine folding it down the middle.', type:'shape', options:['diamond','circle','triangle','square'], answer:1 }]
-  },
-  4: {
-    title:'Walk the edge', kicker:'WORLD 4 · WALK THE EDGE',
-    questions:[{ prompt:'A square has sides of 4 cm. What is its <strong>perimeter</strong>?', hint:'Walk around all four sides: 4 + 4 + 4 + 4.', type:'text', options:['8 cm','12 cm','16 cm','20 cm'], answer:2 }]
-  },
-  5: {
-    title:'Fill the floor', kicker:'WORLD 5 · FILL THE FLOOR',
-    questions:[{ prompt:'A rectangle is 3 squares wide and 4 high. What is its <strong>area</strong>?', hint:'Area counts the squares inside.', type:'text', options:['7','10','12','14'], answer:2 }]
-  },
-  6: {
-    title:'Turn & measure', kicker:'WORLD 6 · TURN & MEASURE',
-    questions:[{ prompt:'Which picture is closest to a <strong>right angle</strong>?', hint:'A right angle is exactly 90°.', type:'angle', options:[45,90,120,160], answer:1 }]
-  },
-  7: {
-    title:'Triangle lab', kicker:'WORLD 7 · TRIANGLE LAB',
-    questions:[{ prompt:'A triangle always has how many <strong>angles</strong>?', hint:'Trace each corner with your finger.', type:'text', options:['2','3','4','5'], answer:1 }]
-  },
-  8: {
-    title:'Map the point', kicker:'WORLD 8 · MAP THE POINT',
-    questions:[{ prompt:'Coordinates are written in which order?', hint:'First move sideways, then up or down.', type:'text', options:['(y, x)','(x, y)','(x + y)','(x ÷ y)'], answer:1 }]
-  },
-  9: {
-    title:'The secret side', kicker:'WORLD 9 · THE SECRET SIDE',
-    questions:[{ prompt:'For a right triangle, which rule finds the longest side?', hint:'It connects the squares built on all three sides.', type:'text', options:['a+b=c','a²+b²=c²','2a+2b=c','a×b=c²'], answer:1 }]
-  },
-  10: {
-    title:'Triangle powers', kicker:'WORLD 10 · TRIANGLE POWERS',
-    questions:[{ prompt:'In a right triangle, <strong>sin(θ)</strong> compares which sides?', hint:'SOH: sine = opposite ÷ hypotenuse.', type:'text', options:['opposite / hypotenuse','adjacent / hypotenuse','opposite / adjacent','hypotenuse / adjacent'], answer:0 }]
-  }
-};
-
-const $ = (s) => document.querySelector(s);
-const $$ = (s) => [...document.querySelectorAll(s)];
-const overlay = $('#lessonOverlay');
-
-function save() {
-  localStorage.setItem('skolaStars', state.stars);
-  localStorage.setItem('skolaCompleted', JSON.stringify([...state.completed]));
+const state={stars:Number(localStorage.getItem('skolaStars')||0),completed:new Set(JSON.parse(localStorage.getItem('skolaCompleted')||'[]')),game:null,gameStars:0};
+const C={purple:'#7b68eb',mint:'#66c7a6',pink:'#ef7da5',yellow:'#ffc65d',blue:'#65a7f4'};
+const lessons={
+1:[
+ {type:'shape',target:'circle',options:['triangle','square','circle','diamond'],answer:2},
+ {type:'shape',target:'triangle',options:['circle','diamond','square','triangle'],answer:3},
+ {type:'shape',target:'square',options:['square','triangle','circle','diamond'],answer:0}
+],
+2:[
+ {type:'fraction',target:{parts:2,fill:1},options:[{parts:3,fill:1},{parts:2,fill:1},{parts:4,fill:1},{parts:4,fill:3}],answer:1},
+ {type:'fraction',target:{parts:3,fill:1},options:[{parts:4,fill:1},{parts:3,fill:2},{parts:3,fill:1},{parts:2,fill:1}],answer:2},
+ {type:'fraction',target:{parts:4,fill:3},options:[{parts:4,fill:2},{parts:3,fill:2},{parts:2,fill:1},{parts:4,fill:3}],answer:3}
+],
+3:[
+ {type:'sym',target:{c1:C.pink,c2:C.pink},options:[{c1:C.pink,c2:C.blue},{c1:C.pink,c2:C.pink},{c1:C.blue,c2:C.yellow},{c1:C.mint,c2:C.purple}],answer:1},
+ {type:'sym',target:{c1:C.blue,c2:C.blue},options:[{c1:C.yellow,c2:C.blue},{c1:C.blue,c2:C.blue},{c1:C.blue,c2:C.pink},{c1:C.mint,c2:C.blue}],answer:1}
+],
+4:[
+ {type:'shape',target:'diamond',options:['square','circle','diamond','triangle'],answer:2},
+ {type:'shape',target:'square',options:['triangle','square','diamond','circle'],answer:1}
+],
+5:[
+ {type:'tiles',target:4,options:[3,5,4,6],answer:2},
+ {type:'tiles',target:6,options:[5,6,7,4],answer:1},
+ {type:'tiles',target:8,options:[6,7,9,8],answer:3}
+],
+6:[
+ {type:'angle',target:90,options:[45,120,90,155],answer:2},
+ {type:'angle',target:45,options:[90,45,135,165],answer:1},
+ {type:'angle',target:135,options:[45,90,135,165],answer:2}
+],
+7:[
+ {type:'triangle',target:'wide',options:['tall','wide','right','tiny'],answer:1},
+ {type:'triangle',target:'right',options:['wide','tall','tiny','right'],answer:3}
+],
+8:[
+ {type:'grid',target:{x:70,y:30},options:[{x:30,y:30},{x:70,y:70},{x:70,y:30},{x:30,y:70}],answer:2},
+ {type:'grid',target:{x:30,y:70},options:[{x:70,y:30},{x:30,y:70},{x:30,y:30},{x:70,y:70}],answer:1}
+],
+9:[
+ {type:'math',target:'purple',options:['mint','yellow','purple','pink'],answer:2},
+ {type:'math',target:'yellow',options:['yellow','pink','purple','mint'],answer:0}
+],
+10:[
+ {type:'ratio',target:{top:C.pink,bottom:C.purple},options:[{top:C.mint,bottom:C.purple},{top:C.pink,bottom:C.yellow},{top:C.pink,bottom:C.purple},{top:C.purple,bottom:C.pink}],answer:2},
+ {type:'ratio',target:{top:C.yellow,bottom:C.mint},options:[{top:C.yellow,bottom:C.mint},{top:C.mint,bottom:C.yellow},{top:C.pink,bottom:C.mint},{top:C.yellow,bottom:C.purple}],answer:0}
+]};
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const game=$('#game');
+function save(){localStorage.setItem('skolaStars',state.stars);localStorage.setItem('skolaCompleted',JSON.stringify([...state.completed]));}
+function dashboard(){
+ $('#starCount').textContent=state.stars;
+ const dots=$('#progressDots');dots.innerHTML='';
+ for(let i=1;i<=10;i++){const d=document.createElement('i');if(state.completed.has(i))d.className='done';dots.appendChild(d)}
+ const next=Math.min(10,Math.max(1,(state.completed.size?Math.max(...state.completed):0)+1));
+ $$('.level').forEach(el=>{const n=+el.dataset.level;el.classList.toggle('completed',state.completed.has(n));el.classList.toggle('current',!state.completed.has(n)&&n===next);el.querySelector('.mini-stars').textContent=state.completed.has(n)?'★★★':''});
 }
-function updateDashboard() {
-  $('#starCount').textContent = state.stars;
-  const completeCount = state.completed.size;
-  $('#courseProgress').style.width = `${Math.min(100, completeCount * 10)}%`;
-  $('#progressText').textContent = `${completeCount} of 10 worlds explored`;
-  $$('.level-card').forEach(card => {
-    const n = Number(card.dataset.level);
-    card.classList.toggle('completed', state.completed.has(n));
-    card.classList.toggle('current', !state.completed.has(n) && n === Math.min(10, Math.max(...state.completed, 0) + 1));
-    const node = card.querySelector('.level-node span');
-    if (state.completed.has(n)) node.textContent = '✓'; else node.textContent = n;
-  });
+function tone(ok=true){
+ try{const A=window.AudioContext||window.webkitAudioContext;const ctx=tone.ctx||(tone.ctx=new A());const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type='sine';o.frequency.setValueAtTime(ok?620:190,ctx.currentTime);if(ok)o.frequency.exponentialRampToValueAtTime(920,ctx.currentTime+.12);g.gain.setValueAtTime(.0001,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.12,ctx.currentTime+.015);g.gain.exponentialRampToValueAtTime(.0001,ctx.currentTime+.22);o.start();o.stop(ctx.currentTime+.23)}catch(e){}
 }
-function toast(message) {
-  const t = $('#toast'); t.textContent = message; t.classList.add('show');
-  clearTimeout(toast.timer); toast.timer = setTimeout(() => t.classList.remove('show'), 1900);
+function spark(big=false){const layer=$('#sparkles'),cols=[C.purple,C.mint,C.pink,C.yellow,C.blue],count=big?36:18;for(let i=0;i<count;i++){const s=document.createElement('i');s.className='spark';const a=Math.PI*2*i/count+Math.random()*.25,r=(big?210:120)+Math.random()*90;s.style.setProperty('--x',`${Math.cos(a)*r}px`);s.style.setProperty('--y',`${Math.sin(a)*r}px`);s.style.setProperty('--r',`${Math.random()*300}deg`);s.style.setProperty('--c',cols[i%cols.length]);layer.appendChild(s);setTimeout(()=>s.remove(),800)}}
+function visual(type,v){
+ if(type==='shape')return `<div class="visual"><span class="v-${v}"></span></div>`;
+ if(type==='fraction'){let x='';for(let i=0;i<v.parts;i++)x+=`<span class="${i<v.fill?'fill':''}"></span>`;return `<div class="visual"><div class="v-frac p${v.parts}">${x}</div></div>`}
+ if(type==='sym')return `<div class="visual"><div class="v-sym" style="--c1:${v.c1};--c2:${v.c2}"><i></i><b></b></div></div>`;
+ if(type==='tiles'){let x='';for(let i=0;i<9;i++)x+=`<i class="${i<v?'fill':''}"></i>`;return `<div class="visual"><div class="v-tiles">${x}</div></div>`}
+ if(type==='angle')return `<div class="visual"><div class="v-angle" style="--a:-${v}deg"></div></div>`;
+ if(type==='triangle'){const dims={wide:[50,72],tall:[38,96],right:[52,82],tiny:[33,60]}[v];return `<div class="visual"><span style="width:0;height:0;border-left:${dims[0]}px solid transparent;border-right:${v==='right'?0:dims[0]}px solid transparent;border-bottom:${dims[1]}px solid ${C.yellow};display:block"></span></div>`}
+ if(type==='grid')return `<div class="visual"><div class="v-grid"><i style="--x:${v.x}%;--y:${v.y}%"></i></div></div>`;
+ if(type==='math'){const col=C[v];return `<div class="visual"><div class="v-math"><span class="sq" style="background:${col}"></span><span>²</span><span>+</span><span class="sq yellow"></span><span>²</span></div></div>`}
+ if(type==='ratio')return `<div class="visual"><div class="v-ratio" style="--top:${v.top};--bottom:${v.bottom}"><i></i><em></em><b></b></div></div>`;
+ return '';
 }
-function filterAge(age) {
-  state.selectedAge = age;
-  $$('.segmented button').forEach(b => b.classList.toggle('active', b.dataset.age === age));
-  $$('.level-card').forEach(card => card.classList.toggle('filtered-out', age !== 'all' && card.dataset.age !== age));
+function openGame(level){state.game={level,index:0};state.gameStars=0;game.classList.add('open');game.setAttribute('aria-hidden','false');document.body.style.overflow='hidden';render();}
+function closeGame(){game.classList.remove('open');game.setAttribute('aria-hidden','true');document.body.style.overflow='';state.game=null;}
+function render(){
+ const qs=lessons[state.game.level],q=qs[state.game.index];$('#gameStars').textContent=state.gameStars;
+ const pg=$('#gameProgress');pg.innerHTML='';qs.forEach((_,i)=>{const d=document.createElement('i');if(i<state.game.index)d.className='done';pg.appendChild(d)});
+ $('#target').innerHTML=visual(q.type,q.target);$('#gesture').style.display=state.game.index===0?'block':'none';
+ const box=$('#choices');box.innerHTML='';q.options.forEach((o,i)=>{const b=document.createElement('button');b.className='choice';b.setAttribute('aria-label',`Choice ${i+1}`);b.innerHTML=visual(q.type,o);b.onclick=()=>choose(b,i,q,qs);box.appendChild(b)});
 }
-function switchSubject(name) {
-  if (name === 'geometry') return;
-  toast(`${name[0].toUpperCase()+name.slice(1)} is ready for the next prototype step.`);
-}
-
-function openLesson(level) {
-  const lesson = lessons[level]; if (!lesson) return;
-  state.lesson = { level, index:0, data:lesson };
-  state.selectedAnswer = null; state.checked = false; state.lessonStars = 0;
-  overlay.classList.add('open'); overlay.setAttribute('aria-hidden','false');
-  document.body.style.overflow='hidden';
-  renderQuestion();
-  setTimeout(() => $('#closeLesson').focus(), 60);
-}
-function closeLesson() {
-  overlay.classList.remove('open'); overlay.setAttribute('aria-hidden','true');
-  document.body.style.overflow=''; state.lesson=null;
-}
-function renderQuestion() {
-  const {data,index} = state.lesson; const q=data.questions[index];
-  state.selectedAnswer=null; state.checked=false;
-  $('#lessonKicker').textContent=data.kicker;
-  $('#lessonTitle').innerHTML=q.prompt;
-  $('#lessonHint').textContent=q.hint;
-  $('#lessonProgressBar').style.width=`${(index/data.questions.length)*100}%`;
-  $('#lessonStars').textContent=state.lessonStars;
-  $('#feedback').className='feedback'; $('#feedback').innerHTML='';
-  const button=$('#continueButton'); button.textContent='Check'; button.disabled=true;
-  const grid=$('#challengeGrid'); grid.innerHTML='';
-  q.options.forEach((opt,i)=>{
-    const card=document.createElement('button'); card.className='answer-card'; card.dataset.index=i;
-    card.setAttribute('aria-label', `Answer ${i+1}`);
-    card.innerHTML=renderOption(q.type,opt);
-    card.addEventListener('click',()=>selectAnswer(i)); grid.appendChild(card);
-  });
-}
-function renderOption(type,opt) {
-  if(type==='fraction') {
-    const cls=`cols-${opt.parts}`;
-    const cells=Array.from({length:opt.parts},(_,i)=>`<span class="cell ${i<opt.fill?'fill':''}"></span>`).join('');
-    return `<div class="fraction-shape ${cls}">${cells}</div>`;
-  }
-  if(type==='shape') return `<div class="shape-answer"><span class="${opt}"></span></div>`;
-  if(type==='angle') return `<div class="angle-answer" style="--angle:-${opt}deg"><span>${opt}°</span></div>`;
-  return `<div class="text-answer">${opt}</div>`;
-}
-function selectAnswer(i) {
-  if(state.checked) return;
-  state.selectedAnswer=i;
-  $$('.answer-card').forEach((c,idx)=>c.classList.toggle('selected',idx===i));
-  $('#continueButton').disabled=false;
-}
-function checkOrContinue() {
-  if(!state.lesson) return;
-  const {data,index,level}=state.lesson; const q=data.questions[index]; const btn=$('#continueButton');
-  if(!state.checked) {
-    state.checked=true;
-    const correct=state.selectedAnswer===q.answer;
-    const cards=$$('.answer-card');
-    cards[q.answer].classList.add('correct');
-    if(correct) {
-      state.lessonStars+=1; $('#lessonStars').textContent=state.lessonStars;
-      $('#feedback').className='feedback success'; $('#feedback').innerHTML='<span class="feedback-icon">✓</span><span>Nice. You saw it.</span>';
-      burst();
-    } else {
-      cards[state.selectedAnswer].classList.add('wrong');
-      $('#feedback').className='feedback error'; $('#feedback').innerHTML='<span class="feedback-icon">↻</span><span>Almost — compare the equal parts.</span>';
-    }
-    const last=index===data.questions.length-1;
-    btn.textContent=last?'Finish':'Continue'; btn.disabled=false;
-  } else {
-    const last=index===data.questions.length-1;
-    if(last) finishLesson(level); else { state.lesson.index+=1; renderQuestion(); }
-  }
-}
-function finishLesson(level) {
-  const newlyCompleted=!state.completed.has(level);
-  state.completed.add(level);
-  if(newlyCompleted) state.stars += state.lessonStars;
-  save(); updateDashboard();
-  $('#lessonProgressBar').style.width='100%';
-  burst(true); closeLesson();
-  toast(`World complete · +${newlyCompleted?state.lessonStars:0} stars`);
-}
-function burst(big=false) {
-  const layer=$('#confettiLayer'); const colors=['#6755e7','#5bbf9c','#ffb84d','#eb6c9d','#5d9df5'];
-  const count=big?34:18;
-  for(let i=0;i<count;i++){
-    const el=document.createElement('i'); el.className='confetti';
-    const a=(Math.PI*2*i/count)+(Math.random()*.3); const r=(big?220:130)+Math.random()*100;
-    el.style.setProperty('--x',`${Math.cos(a)*r}px`);el.style.setProperty('--y',`${Math.sin(a)*r}px`);el.style.setProperty('--r',`${Math.random()*140}deg`);el.style.setProperty('--c',colors[i%colors.length]);layer.appendChild(el);setTimeout(()=>el.remove(),900);
-  }
-}
-
-$$('.level-card').forEach(card=>card.addEventListener('click',()=>openLesson(Number(card.dataset.level))));
-$$('.segmented button').forEach(btn=>btn.addEventListener('click',()=>filterAge(btn.dataset.age)));
-$$('.subject').forEach(btn=>btn.addEventListener('click',()=>switchSubject(btn.dataset.subject)));
-$('#closeLesson').addEventListener('click',closeLesson);
-$('#continueButton').addEventListener('click',checkOrContinue);
-overlay.addEventListener('click',(e)=>{ if(e.target===overlay) closeLesson(); });
-window.addEventListener('keydown',(e)=>{ if(e.key==='Escape'&&state.lesson) closeLesson(); });
-$('#homeButton').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
-$('#resetProgress').addEventListener('click',()=>{ state.completed=new Set([1]);state.stars=24;save();updateDashboard();toast('Demo progress reset'); });
-updateDashboard();
+function choose(btn,i,q,qs){if(btn.dataset.locked)return;$$('.choice').forEach(x=>x.dataset.locked='1');if(i===q.answer){btn.classList.add('correct');state.gameStars++;$('#gameStars').textContent=state.gameStars;tone(true);spark();setTimeout(()=>{if(!state.game)return;if(state.game.index===qs.length-1)finish();else{state.game.index++;render()}},650)}else{btn.classList.add('wrong');tone(false);setTimeout(()=>{$$('.choice').forEach(x=>delete x.dataset.locked);btn.classList.remove('wrong')},430)}}
+function finish(){const level=state.game.level,newOne=!state.completed.has(level);state.completed.add(level);if(newOne)state.stars+=state.gameStars;save();dashboard();tone(true);setTimeout(()=>tone(true),90);spark(true);setTimeout(closeGame,850)}
+$$('.level').forEach(b=>b.onclick=()=>openGame(+b.dataset.level));
+$('#closeGame').onclick=closeGame;game.onclick=e=>{if(e.target===game)closeGame()};
+$('#homeButton').onclick=()=>window.scrollTo({top:0,behavior:'smooth'});
+$$('.subject').forEach(b=>b.onclick=()=>{if(b.dataset.subject==='geometry')return;const old=b.style.transform;b.style.transform='scale(.88) rotate(-5deg)';setTimeout(()=>b.style.transform=old,220);tone(false)});
+window.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.game)closeGame()});
+dashboard();
