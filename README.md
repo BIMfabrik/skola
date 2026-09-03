@@ -8,13 +8,13 @@ The child-facing interface is designed to work before fluent reading: learning i
 
 ## Current playable worlds
 
-- **Math / geometry:** shape matching, fractions, symmetry, visual patterns, angle rotation
+- **Math / geometry:** drag-to-fit shapes, construct fractions, symmetry, drag-complete patterns, angle rotation
 - **Music:** rhythm and melody imitation
 - **Physics:** adjustable ramp matching
 - **Chemistry:** visual color mixing
 - **Nature:** touch-drag life-cycle / sequence ordering
 
-Progress persists locally and visibly builds the home island.
+Progress persists locally and visibly builds the home island. The island itself is now the subject navigation: children select worlds by touching objects in the scene rather than using a conventional menu.
 
 ## Product specification
 
@@ -24,7 +24,9 @@ See [`PRODUCT_SPEC.md`](PRODUCT_SPEC.md) for the learning model, 5–12 progress
 
 - no child-facing written instructions
 - large touch targets and iPad-safe layouts
-- tap / drag / rotate interaction vocabulary
+- direct drag / tap / rotate interaction vocabulary
+- first-use ghost-hand gesture demonstrations
+- hidden adaptive difficulty based on mistakes, hints, completion time, and mastery
 - automatic progression after success
 - non-punitive wrong-answer behavior
 - useful with sound muted
@@ -43,6 +45,12 @@ Then open `http://localhost:8080`.
 
 ```bash
 python3 tests/validate.py
+```
+
+With a local Chrome DevTools session available, the deeper interaction suite is:
+
+```bash
+python3 tests/browser_smoke.py
 ```
 
 The validation checks JavaScript syntax, required product files, offline/static-resource assumptions, the wordless child shell, minimum touch-target styling, and the presence of every activity renderer.

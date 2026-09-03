@@ -29,9 +29,14 @@
     <main class="main-scene">
       <section class="world-stage" aria-label="progress world">
         <div class="world-sky"></div>
-        <div class="builder" id="builder" aria-hidden="true">
+        <div class="builder" id="builder" data-world="math">
           <div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
           <div class="island"></div>
+          <button class="world-node node-math active" data-world="math" aria-label="Math"><span class="world-icon icon-math" aria-hidden="true"></span></button>
+          <button class="world-node node-music" data-world="music" aria-label="Music"><span class="world-icon icon-music" aria-hidden="true"></span></button>
+          <button class="world-node node-physics" data-world="physics" aria-label="Physics"><span class="world-icon icon-physics" aria-hidden="true"></span></button>
+          <button class="world-node node-chemistry" data-world="chemistry" aria-label="Chemistry"><span class="world-icon icon-chemistry" aria-hidden="true"></span></button>
+          <button class="world-node node-nature" data-world="nature" aria-label="Nature"><span class="world-icon icon-nature" aria-hidden="true"></span></button>
           <div class="mascot"><i></i><b></b><em></em></div>
           <i class="build-piece tree"></i>
           <i class="build-piece house"></i>
@@ -42,14 +47,6 @@
           <i class="build-piece flag"></i>
         </div>
       </section>
-
-      <nav class="world-tabs" aria-label="learning worlds">
-        <button class="world-tab active" data-world="math" aria-label="Math"><span class="world-icon icon-math" aria-hidden="true"></span></button>
-        <button class="world-tab" data-world="music" aria-label="Music"><span class="world-icon icon-music" aria-hidden="true"></span></button>
-        <button class="world-tab" data-world="physics" aria-label="Physics"><span class="world-icon icon-physics" aria-hidden="true"></span></button>
-        <button class="world-tab" data-world="chemistry" aria-label="Chemistry"><span class="world-icon icon-chemistry" aria-hidden="true"></span></button>
-        <button class="world-tab" data-world="nature" aria-label="Nature"><span class="world-icon icon-nature" aria-hidden="true"></span></button>
-      </nav>
 
       <section class="activity-grid" id="activityGrid" aria-label="activities"></section>
     </main>

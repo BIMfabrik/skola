@@ -138,18 +138,19 @@ Algebra, percentages, ratios, Pythagoras, graphing, probability, trigonometry, p
 
 ## Adaptation model
 
-The prototype stores simple progress locally. A production system should build a skill graph and estimate mastery from:
+The prototype now includes a first hidden mastery engine. Each activity stores local skill telemetry without exposing a score to the child:
 
-- correctness
-- time to first action
-- retries
+- successful stage completions
+- mistakes during a stage
 - hint usage
-- repeated mistakes
-- speed after repetition
-- preferred interaction types
-- transfer of a concept to a new visual form
+- completion time
+- clean-success streaks
+- rolling response time
+- estimated mastery from 0–1
 
-The learner should never see an algorithmic score. Adaptation changes the next challenge silently.
+The next stage is selected by matching the learner's mastery to stage difficulty. A clean, fast success moves the estimate upward more strongly; errors and hints reduce the increase or can lower mastery slightly. The selector may repeat an easier stage when the learner struggles and selects harder variants as mastery rises.
+
+The learner never sees this algorithmic score. Adaptation changes the next challenge silently. A future production model should extend this into a graph of transferable skills across activities and subjects.
 
 ## Feedback model
 
@@ -186,13 +187,15 @@ The prototype remains a static web app deployable on GitHub Pages. Keep the chil
 
 ### Core modules
 
-- **Shell:** home world, subject dock, safe-area/layout management
-- **Activity catalog:** data describing available activities and their stages
-- **Activity engine:** opens a stage, tracks attempts, advances automatically
-- **Interaction renderers:** tap choice, mirror grid, rotate target, rhythm copy, drag/drop in future
+- **Shell:** navigable home island, safe-area/layout management
+- **Activity catalog:** data describing activities, visual variants, and difficulty
+- **Adaptive selector:** maps hidden mastery to the next suitable stage
+- **Activity engine:** tracks round telemetry and advances automatically
+- **Interaction renderers:** drag-to-fit, fraction construction, pattern drag, mirror grid, rotate, rhythm, ramp, mixing, ordering
+- **Gesture coach:** first-use and idle-time ghost-hand demonstrations
 - **Feedback engine:** motion, tones, particles, hint timing
-- **Progress store:** localStorage for prototype; replaceable with account storage later
-- **World builder:** maps mastery/progress to persistent visual unlocks
+- **Progress store:** localStorage for progress, mastery, and learned gestures; replaceable later
+- **World builder:** maps progress to persistent visual unlocks
 
 ### Engineering rules
 
@@ -212,35 +215,38 @@ The prototype remains a static web app deployable on GitHub Pages. Keep the chil
 ### Fully playable
 
 Math:
-- shape matching
-- fractions / equal parts recognition
+- drag shapes into matching silhouettes
+- construct visual fractions by moving pieces into equal partitions
 - mirror completion
-- visual sequence completion
-- angle matching by rotation
+- complete visual sequences by dragging the missing object
+- angle matching by direct rotation
 
 Music:
-- rhythm / short melody imitation using four colored bars
+- rhythm and short melody imitation using four colored bars
 
-### Visible world previews
+Physics:
+- direct manipulation of an adjustable ramp
 
-- Physics
-- Chemistry
-- Nature
+Chemistry:
+- visual color mixing
 
-The preview worlds establish the product architecture without pretending incomplete activities are finished.
+Nature:
+- touch-drag life-cycle and sequence ordering
+
+The home island itself is now the subject selector. First use of a mechanic is demonstrated by a ghost hand and repeated after inactivity when useful.
 
 ## Next high-value activities
 
-1. **Fraction playground:** drag/split/recombine instead of recognition-only choices.
-2. **Tangram builder:** drag and rotate pieces into silhouettes.
+1. **Fraction playground II:** allow true split/recombine gestures and fraction equivalence.
+2. **Tangram builder:** drag and rotate several pieces into silhouettes.
 3. **Number garden:** quantities → dots → digits.
-4. **Physics ramp:** adjustable slope, balls, friction surfaces.
-5. **Balance lab:** drag masses onto scales.
-6. **Color chemistry:** combine droplets and predict/result colors.
-7. **Plant growth:** choose light/water conditions and observe changes.
-8. **Melody memory:** progressively longer auditory sequences.
-9. **Visual coding:** arrow blocks to navigate a character.
-10. **Adaptive stage selector:** choose next task from skill mastery rather than fixed order.
+4. **Physics sandbox:** add balls, friction surfaces, momentum and prediction.
+5. **Balance lab:** drag masses onto scales and discover equality.
+6. **Chemistry lab II:** pour/dissolve/state-change interactions beyond color mixing.
+7. **Plant growth lab:** choose light/water conditions and observe changes.
+8. **Music composer:** place sound blocks to create and replay short melodies.
+9. **Visual coding:** arrow blocks to navigate the companion.
+10. **Cross-skill graph:** connect mastery signals between related activities.
 
 ## Success criteria
 

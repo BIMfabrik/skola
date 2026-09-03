@@ -74,13 +74,7 @@ button:focus-visible { outline: 3px solid rgba(103, 85, 231, .3); outline-offset
 .flag { right: calc(50% - 14px); bottom: 144px; width: 12px; height: 58px; border-radius: 10px; background: linear-gradient(180deg, #c7d3f6, #8fa2d8); }
 .flag::before { content: ""; position: absolute; left: 9px; top: 6px; width: 30px; height: 18px; border-radius: 0 10px 10px 0; background: linear-gradient(135deg, #ef7aa7, #d84c80); }
 
-.world-tabs { display: flex; gap: 12px; padding: 2px 2px 4px; overflow-x: auto; scrollbar-width: none; }
-.world-tabs::-webkit-scrollbar { display: none; }
-.world-tab { flex: 1; min-width: 74px; height: 72px; min-height: 72px; border-radius: 24px; display: grid; place-items: center; background: rgba(255,255,255,.72); border: 1px solid rgba(225,229,240,.92); box-shadow: var(--shadow-sm); transition: transform .18s ease, background .18s ease, box-shadow .18s ease; }
-.world-tab.active { background: linear-gradient(135deg,#7a68eb,#5b49d5); border-color: transparent; box-shadow: 0 12px 28px rgba(103,85,231,.22); }
-.world-tab:active { transform: scale(.98); }
 .world-icon { position: relative; width: 40px; height: 40px; display: block; color: #6d7690; }
-.world-tab.active .world-icon { color: #fff; }
 .world-icon::before, .world-icon::after { content: ""; position: absolute; display: block; }
 .icon-math::before { width: 18px; height: 18px; border: 3px solid currentColor; border-radius: 50%; right: 1px; top: 10px; }
 .icon-math::after { width: 16px; height: 16px; border-radius: 5px; background: currentColor; left: 4px; top: 4px; transform: rotate(10deg); box-shadow: 13px 21px 0 -4px currentColor; }
@@ -218,10 +212,6 @@ button:focus-visible { outline: 3px solid rgba(103, 85, 231, .3); outline-offset
   .wheel { left: calc(50% - 136px); bottom: 61px; width: 48px; height: 48px; }
   .sun { right: calc(50% - 186px); top: 18px; width: 54px; height: 54px; }
   .flag { right: calc(50% - 10px); bottom: 126px; }
-  .world-tabs { position: fixed; z-index: 22; left: 10px; right: 10px; bottom: max(10px,env(safe-area-inset-bottom)); padding: 8px; border-radius: 26px; background: rgba(249,250,254,.88); border: 1px solid rgba(223,227,238,.96); box-shadow: 0 16px 34px rgba(33,38,58,.14); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-  .world-tab { min-width: 0; height: 58px; min-height: 58px; border-radius: 18px; box-shadow: none; background: transparent; border: 0; }
-  .world-tab.active { background: #ece9ff; box-shadow: none; }
-  .world-tab.active .world-icon { color: #5c49d7; }
   .activity-grid { grid-template-columns: 1fr; }
   .activity-card { min-height: 160px; }
   .game-overlay { padding: 0; place-items: end center; }
@@ -307,3 +297,231 @@ button:focus-visible { outline: 3px solid rgba(103, 85, 231, .3); outline-offset
 @keyframes mascot-bob { to { transform: translateY(-5px) rotate(1.2deg); } }
 @keyframes cloud-float { to { transform: translateX(18px); } }
 @media (max-width:720px) { .mascot { bottom: 66px; transform: scale(.9); } .cloud { opacity: .7; } }
+
+/* Sprint 02 — the island is navigation, not decoration. */
+.world-node {
+  position: absolute;
+  z-index: 7;
+  width: 58px;
+  height: 58px;
+  min-height: 58px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  color: #667189;
+  background: rgba(255,255,255,.82);
+  border: 2px solid rgba(255,255,255,.92);
+  box-shadow: 0 10px 24px rgba(49,61,90,.12), inset 0 -4px 0 rgba(89,99,124,.06);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform .22s cubic-bezier(.2,.8,.2,1), box-shadow .22s ease, background .22s ease, color .22s ease;
+}
+.world-node .world-icon { transform: scale(.76); }
+.world-node:hover { transform: translateY(-3px); }
+.world-node:active { transform: scale(.94); }
+.world-node.active {
+  color: white;
+  background: linear-gradient(145deg,#8170ef,#5b49d5);
+  border-color: rgba(255,255,255,.7);
+  box-shadow: 0 13px 28px rgba(85,67,205,.3), 0 0 0 7px rgba(103,85,231,.11);
+}
+.node-math { left: calc(50% - 164px); bottom: 42px; }
+.node-music { left: calc(50% - 104px); bottom: 112px; }
+.node-nature { left: calc(50% - 29px); top: 34px; }
+.node-physics { left: calc(50% + 46px); bottom: 112px; }
+.node-chemistry { left: calc(50% + 106px); bottom: 42px; }
+.builder[data-world="math"] .mascot { left: calc(50% - 52px); }
+.builder[data-world="music"] .mascot { left: calc(50% - 26px); }
+.builder[data-world="nature"] .mascot { left: calc(50% - 38px); }
+.builder[data-world="physics"] .mascot { left: calc(50% - 50px); }
+.builder[data-world="chemistry"] .mascot { left: calc(50% - 24px); }
+.mascot { transition: left .36s cubic-bezier(.2,.8,.2,1); }
+
+/* Direct-manipulation mathematics. */
+.fit-lab, .fraction-build, .pattern-build {
+  width: min(720px,100%);
+  height: 100%;
+  margin: 0 auto;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 22px;
+}
+.fit-drop {
+  width: 174px;
+  height: 174px;
+  display: grid;
+  place-items: center;
+  border-radius: 34px;
+  border: 3px dashed #cfd4e4;
+  background: linear-gradient(180deg,#f5f7fc,#fff);
+  box-shadow: inset 0 0 0 9px rgba(232,235,245,.42);
+  transition: .2s ease;
+}
+.fit-silhouette { opacity: .14; filter: saturate(.3); transform: scale(1.08); }
+.fit-drop.filled { border-style: solid; border-color: #73c6a6; background: #f1fbf7; box-shadow: 0 0 0 7px rgba(91,191,156,.1); }
+.fit-drop.reject { border-color: #e98aa9; animation: shake .26s ease; }
+.fit-tray, .pattern-tray, .fraction-tray {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.fit-piece, .pattern-piece, .fraction-piece {
+  min-width: 118px;
+  min-height: 108px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  background: #fff;
+  border: 2px solid #e5e9f3;
+  box-shadow: 0 8px 20px rgba(39,46,82,.07);
+  touch-action: none;
+  transition: opacity .18s ease, transform .18s ease, border-color .18s ease;
+}
+.fit-piece .shape-box, .pattern-piece .shape-box { transform: scale(.72); }
+.fit-piece:active, .pattern-piece:active, .fraction-piece:active { transform: scale(.96); }
+.fit-piece.placed, .pattern-piece.placed, .fraction-piece.placed { opacity: .22; transform: scale(.92); }
+.drag-source { opacity: .35; }
+.manipulation-ghost .shape-box { transform: scale(.72); }
+
+.fraction-copy-target .fraction-grid { width: 104px; }
+.fraction-work {
+  width: min(228px,66vw);
+  aspect-ratio: 1;
+  display: grid;
+  overflow: hidden;
+  border-radius: 28px;
+  border: 6px solid #4c576f;
+  background: #fff;
+  box-shadow: 0 11px 24px rgba(39,46,82,.08);
+}
+.fraction-work.cols-2 { grid-template-columns: repeat(2,1fr); }
+.fraction-work.cols-3 { grid-template-columns: repeat(3,1fr); }
+.fraction-work.cols-4 { grid-template-columns: repeat(4,1fr); }
+.fraction-build-cell { border-right: 3px solid #4c576f; border-bottom: 3px solid #4c576f; transition: background .18s ease; }
+.fraction-build-cell.filled { background: linear-gradient(145deg,#8878ef,#6655e7); box-shadow: inset 0 0 0 5px rgba(255,255,255,.09); }
+.fraction-piece { min-width: 74px; width: 74px; min-height: 74px; height: 74px; border-radius: 20px; }
+.fraction-piece span { width: 46px; height: 46px; border-radius: 13px; background: linear-gradient(145deg,#9284f5,#6755e7); box-shadow: inset 0 -5px 0 rgba(73,55,180,.12); }
+
+.pattern-work {
+  width: min(650px,100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pattern-fixed, .pattern-drop {
+  width: 88px;
+  height: 88px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.pattern-fixed { background: #f7f8fd; border: 2px solid #e7eaf3; }
+.pattern-drop { border: 3px dashed #cbd1e2; background: #fff; box-shadow: inset 0 0 0 7px rgba(238,240,247,.6); }
+.pattern-drop.filled { border-style: solid; border-color: #73c6a6; background: #f3fbf8; }
+.pattern-fixed .shape-box, .pattern-drop .shape-box { transform: scale(.57); }
+.pattern-piece { min-width: 104px; min-height: 96px; }
+
+/* Motion teaches a new gesture before any language is needed. */
+.gesture-hand {
+  position: absolute;
+  z-index: 35;
+  width: 54px;
+  height: 54px;
+  pointer-events: none;
+  transform: translate(-50%,-50%);
+  filter: drop-shadow(0 9px 10px rgba(45,52,78,.16));
+}
+.gesture-hand span {
+  position: absolute;
+  left: 16px;
+  top: 18px;
+  width: 27px;
+  height: 29px;
+  border-radius: 14px 14px 15px 15px;
+  background: rgba(255,255,255,.96);
+  border: 2px solid rgba(103,85,231,.38);
+}
+.gesture-hand span::before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 31px;
+  left: 6px;
+  top: -22px;
+  border-radius: 8px 8px 3px 3px;
+  background: rgba(255,255,255,.98);
+  border: 2px solid rgba(103,85,231,.38);
+  border-bottom: 0;
+}
+.gesture-hand span::after {
+  content: "";
+  position: absolute;
+  inset: -9px;
+  border-radius: 50%;
+  border: 3px solid rgba(103,85,231,.15);
+}
+
+@media (max-width:720px) {
+  .world-node { width: 48px; height: 48px; min-height: 48px; border-radius: 18px; }
+  .world-node .world-icon { transform: scale(.62); }
+  .node-math { left: calc(50% - 135px); bottom: 36px; }
+  .node-music { left: calc(50% - 84px); bottom: 96px; }
+  .node-nature { left: calc(50% - 24px); top: 22px; }
+  .node-physics { left: calc(50% + 36px); bottom: 96px; }
+  .node-chemistry { left: calc(50% + 87px); bottom: 36px; }
+  .mascot { width: 62px; height: 58px; bottom: 62px; }
+  .mascot i, .mascot b { top: 19px; }
+  .mascot i { left: 17px; }
+  .mascot b { right: 17px; }
+  .fit-lab, .fraction-build, .pattern-build { gap: 14px; }
+  .fit-drop { width: 142px; height: 142px; border-radius: 28px; }
+  .fit-tray, .pattern-tray, .fraction-tray { gap: 8px; }
+  .fit-piece, .pattern-piece { min-width: 90px; min-height: 84px; border-radius: 19px; }
+  .fraction-work { width: min(190px,64vw); border-width: 5px; border-radius: 23px; }
+  .pattern-work { gap: 7px; }
+  .pattern-fixed, .pattern-drop { width: 66px; height: 66px; border-radius: 19px; }
+  .pattern-fixed .shape-box, .pattern-drop .shape-box { transform: scale(.43); }
+}
+
+@media (orientation: landscape) and (max-height:680px) {
+  .stage-board { overflow: auto; }
+  .fit-lab, .fraction-build { grid-template-columns: minmax(130px,.8fr) minmax(280px,1.4fr); align-items: center; align-content: center; gap: 14px; }
+  .fit-drop { width: 128px; height: 128px; border-radius: 26px; }
+  .fit-tray, .fraction-tray { max-width: 430px; }
+  .fit-piece { min-width: 92px; min-height: 82px; }
+  .fraction-work { width: 146px; }
+  .pattern-build { gap: 10px; }
+  .pattern-work { flex-wrap: nowrap; }
+  .pattern-fixed, .pattern-drop { width: 64px; height: 64px; border-radius: 18px; }
+  .pattern-tray .pattern-piece { min-height: 76px; }
+}
+
+@media (orientation: landscape) and (max-height:680px) {
+  .game-body {
+    grid-template-columns: minmax(160px, .34fr) minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    padding: 12px 18px;
+    gap: 12px;
+  }
+  .stage-target { min-height: 0; padding: 10px; border-radius: 24px; overflow: hidden; }
+  .stage-target .target-bubble { min-width: 116px; min-height: 90px; padding: 8px; transform: scale(.82); }
+  .stage-target .pattern-strip { transform: scale(.68); flex-wrap: nowrap; }
+  .stage-target .angle-target { transform: scale(.62); }
+  .stage-board { min-height: 0; height: 100%; border-radius: 24px; }
+  .fit-lab, .fraction-build { grid-template-columns: minmax(118px,.7fr) minmax(250px,1.5fr); height: 100%; }
+  .fit-drop { width: 118px; height: 118px; }
+  .fit-piece { min-width: 84px; min-height: 76px; }
+  .fraction-work { width: 132px; }
+  .fraction-piece { width: 62px; min-width: 62px; height: 62px; min-height: 62px; }
+  .fraction-piece span { width: 38px; height: 38px; }
+  .pattern-work { max-width: 100%; }
+  .pattern-fixed, .pattern-drop { width: 56px; height: 56px; }
+  .pattern-piece { min-width: 78px; min-height: 70px; }
+  .xylophone-bar { min-height: 150px; }
+}

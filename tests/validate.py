@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-REQUIRED = ["index.html", "styles.css", "app.js", "README.md", "PRODUCT_SPEC.md", "favicon.svg"]
+REQUIRED = ["index.html", "styles.css", "app.js", "README.md", "PRODUCT_SPEC.md", "SPRINT_02.md", "favicon.svg"]
 
 class VisibleTextParser(HTMLParser):
     def __init__(self):
@@ -53,7 +53,7 @@ def main():
     if "min-height: 44px" not in css:
         problems += fail("44px minimum touch target rule missing")
 
-    required_types = ["choice", "fraction", "mirror", "pattern", "angle", "rhythm", "ramp", "mix", "order"]
+    required_types = ["fit", "fraction", "mirror", "pattern", "angle", "rhythm", "ramp", "mix", "order"]
     for activity_type in required_types:
         if f"type: '{activity_type}'" not in js:
             problems += fail(f"renderer type missing: {activity_type}")
@@ -64,6 +64,11 @@ def main():
 
     if "localStorage" not in js:
         problems += fail("progress persistence missing")
+    for marker in ["chooseStageIndex", "mastery", "stageErrors", "seenDemos", "gesture-hand", "enablePointerDrag"]:
+        if marker not in js and marker not in css:
+            problems += fail(f"sprint capability missing: {marker}")
+    if "world-node" not in html:
+        problems += fail("island navigation missing")
     if "prefers-reduced-motion" not in css:
         problems += fail("reduced-motion support missing")
 

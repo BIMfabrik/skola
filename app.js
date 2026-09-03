@@ -9,104 +9,117 @@ const WORLDS = {
   nature: ['grow'],
 };
 
+const ACTIVITY_MILESTONES = 3;
 const ACTIVITIES = {
   shapes: {
-    world: 'math', type: 'choice', art: 'art-shapes',
+    world: 'math', type: 'fit', skill: 'shape-fit', art: 'art-shapes',
     stages: [
-      { target: { kind: 'shape', value: 'circle' }, options: ['triangle', 'circle', 'diamond', 'square'], answer: 1 },
-      { target: { kind: 'shape', value: 'triangle' }, options: ['circle', 'square', 'triangle', 'diamond'], answer: 2 },
-      { target: { kind: 'shape', value: 'square' }, options: ['hexagon', 'triangle', 'square', 'circle'], answer: 2 },
+      { difficulty: 1, target: 'circle', options: ['triangle', 'circle', 'square'] },
+      { difficulty: 1.5, target: 'triangle', options: ['circle', 'triangle', 'diamond'] },
+      { difficulty: 2, target: 'square', options: ['triangle', 'square', 'circle'] },
+      { difficulty: 2.6, target: 'diamond', options: ['square', 'diamond', 'circle', 'triangle'] },
+      { difficulty: 3.2, target: 'hexagon', options: ['diamond', 'hexagon', 'triangle', 'square'] },
     ],
   },
   parts: {
-    world: 'math', type: 'fraction', art: 'art-parts',
+    world: 'math', type: 'fraction', skill: 'fractions', art: 'art-parts',
     stages: [
-      { target: { parts: 2, fill: [0] }, options: [{ parts: 2, fill: [0] }, { parts: 3, fill: [0] }, { parts: 4, fill: [0] }, { parts: 4, fill: [0, 1] }], answer: 0 },
-      { target: { parts: 3, fill: [0] }, options: [{ parts: 2, fill: [0] }, { parts: 3, fill: [0, 1] }, { parts: 3, fill: [0] }, { parts: 4, fill: [0] }], answer: 2 },
-      { target: { parts: 4, fill: [0, 1, 2] }, options: [{ parts: 4, fill: [0, 1] }, { parts: 3, fill: [0, 1] }, { parts: 4, fill: [0, 1, 2] }, { parts: 2, fill: [0] }], answer: 2 },
+      { difficulty: 1, target: { parts: 2, fill: [0] } },
+      { difficulty: 1.5, target: { parts: 3, fill: [0] } },
+      { difficulty: 2, target: { parts: 4, fill: [0] } },
+      { difficulty: 2.5, target: { parts: 4, fill: [0, 1] } },
+      { difficulty: 3, target: { parts: 4, fill: [0, 1, 2] } },
     ],
   },
   mirror: {
-    world: 'math', type: 'mirror', art: 'art-mirror',
+    world: 'math', type: 'mirror', skill: 'symmetry', art: 'art-mirror',
     stages: [
-      { rows: 4, cols: 6, source: ['0-0', '1-0', '1-1', '2-1', '3-1', '2-2'] },
-      { rows: 4, cols: 6, source: ['0-1', '1-0', '1-1', '1-2', '2-0', '2-2', '3-1'] },
-      { rows: 4, cols: 6, source: ['0-2', '1-1', '1-2', '2-0', '2-1', '2-2', '3-2'] },
+      { difficulty: 1, rows: 4, cols: 6, source: ['0-0', '1-0', '1-1', '2-1', '3-1', '2-2'] },
+      { difficulty: 2, rows: 4, cols: 6, source: ['0-1', '1-0', '1-1', '1-2', '2-0', '2-2', '3-1'] },
+      { difficulty: 3, rows: 4, cols: 6, source: ['0-2', '1-1', '1-2', '2-0', '2-1', '2-2', '3-2'] },
     ],
   },
   pattern: {
-    world: 'math', type: 'pattern', art: 'art-pattern',
+    world: 'math', type: 'pattern', skill: 'patterns', art: 'art-pattern',
     stages: [
-      { sequence: ['circle', 'square', 'circle'], options: ['square', 'triangle', 'diamond'], answer: 0 },
-      { sequence: ['triangle', 'triangle', 'square'], options: ['triangle', 'square', 'circle'], answer: 0 },
-      { sequence: ['diamond', 'circle', 'diamond'], options: ['triangle', 'circle', 'diamond'], answer: 1 },
+      { difficulty: 1, sequence: ['circle', 'square', 'circle'], options: ['square', 'triangle', 'diamond'], answer: 0 },
+      { difficulty: 1.5, sequence: ['triangle', 'triangle', 'square'], options: ['triangle', 'square', 'circle'], answer: 0 },
+      { difficulty: 2, sequence: ['diamond', 'circle', 'diamond'], options: ['triangle', 'circle', 'diamond'], answer: 1 },
+      { difficulty: 2.6, sequence: ['square', 'circle', 'triangle', 'square', 'circle'], options: ['diamond', 'triangle', 'circle'], answer: 1 },
+      { difficulty: 3.2, sequence: ['circle', 'circle', 'square', 'circle', 'circle'], options: ['square', 'triangle', 'diamond'], answer: 0 },
     ],
   },
   turn: {
-    world: 'math', type: 'angle', art: 'art-turn',
+    world: 'math', type: 'angle', skill: 'angles', art: 'art-turn',
     stages: [
-      { target: 45, start: 120 },
-      { target: 90, start: 28 },
-      { target: 135, start: 78 },
+      { difficulty: 1, target: 45, start: 120 },
+      { difficulty: 2, target: 90, start: 28 },
+      { difficulty: 3, target: 135, start: 78 },
     ],
   },
   rhythm: {
-    world: 'music', type: 'rhythm', art: 'art-rhythm',
+    world: 'music', type: 'rhythm', skill: 'rhythm', art: 'art-rhythm',
     stages: [
-      { sequence: [0, 2, 1] },
-      { sequence: [3, 1, 2, 1] },
-      { sequence: [0, 1, 3, 2, 3] },
+      { difficulty: 1, sequence: [0, 2, 1] },
+      { difficulty: 2, sequence: [3, 1, 2, 1] },
+      { difficulty: 3, sequence: [0, 1, 3, 2, 3] },
     ],
   },
   melody: {
-    world: 'music', type: 'rhythm', art: 'preview-music',
+    world: 'music', type: 'rhythm', skill: 'melody-memory', art: 'preview-music',
     stages: [
-      { sequence: [0, 1, 2] },
-      { sequence: [0, 2, 3, 2] },
-      { sequence: [3, 2, 1, 0, 1] },
+      { difficulty: 1, sequence: [0, 1, 2] },
+      { difficulty: 2, sequence: [0, 2, 3, 2] },
+      { difficulty: 3, sequence: [3, 2, 1, 0, 1] },
     ],
   },
   ramp: {
-    world: 'physics', type: 'ramp', art: 'preview-physics',
+    world: 'physics', type: 'ramp', skill: 'motion-angle', art: 'preview-physics',
     stages: [
-      { target: 28, start: 8 },
-      { target: 50, start: 18 },
-      { target: 72, start: 36 },
+      { difficulty: 1, target: 28, start: 8 },
+      { difficulty: 2, target: 50, start: 18 },
+      { difficulty: 3, target: 72, start: 36 },
     ],
   },
   mix: {
-    world: 'chemistry', type: 'mix', art: 'preview-chemistry',
+    world: 'chemistry', type: 'mix', skill: 'mixing', art: 'preview-chemistry',
     stages: [
-      { target: '#7bcf8b', ingredients: ['#5d9df5', '#ffcf57', '#ff6b6b'], answer: [0, 1] },
-      { target: '#a878dc', ingredients: ['#5d9df5', '#ffcf57', '#eb6c9d'], answer: [0, 2] },
-      { target: '#f19a68', ingredients: ['#ffcf57', '#ff6b6b', '#5d9df5'], answer: [0, 1] },
+      { difficulty: 1, target: '#7bcf8b', ingredients: ['#5d9df5', '#ffcf57', '#ff6b6b'], answer: [0, 1] },
+      { difficulty: 2, target: '#a878dc', ingredients: ['#5d9df5', '#ffcf57', '#eb6c9d'], answer: [0, 2] },
+      { difficulty: 3, target: '#f19a68', ingredients: ['#ffcf57', '#ff6b6b', '#5d9df5'], answer: [0, 1] },
     ],
   },
   grow: {
-    world: 'nature', type: 'order', art: 'art-preview',
+    world: 'nature', type: 'order', skill: 'sequencing', art: 'art-preview',
     stages: [
-      { order: ['seed', 'sprout', 'plant', 'flower'] },
-      { order: ['egg', 'caterpillar', 'cocoon', 'butterfly'] },
-      { order: ['cloud', 'rain', 'puddle', 'sun'] },
+      { difficulty: 1, order: ['seed', 'sprout', 'plant', 'flower'] },
+      { difficulty: 2, order: ['egg', 'caterpillar', 'cocoon', 'butterfly'] },
+      { difficulty: 3, order: ['cloud', 'rain', 'puddle', 'sun'] },
     ],
   },
 };
 
 const DEFAULT_PROGRESS = Object.fromEntries(Object.keys(ACTIVITIES).map((id) => [id, 0]));
-const DEFAULT_STATE = { world: 'math', stars: 0, muted: false, progress: DEFAULT_PROGRESS };
+const DEFAULT_SKILLS = Object.fromEntries(Object.keys(ACTIVITIES).map((id) => [id, { mastery: .08, attempts: 0, successes: 0, errors: 0, hints: 0, avgMs: 0, streak: 0 }]));
+const DEFAULT_STATE = { world: 'math', stars: 0, muted: false, progress: DEFAULT_PROGRESS, skills: DEFAULT_SKILLS, seenDemos: {} };
 
 function loadState() {
   try {
-    const saved = JSON.parse(localStorage.getItem('skola-silent-v3') || '{}');
+    const raw = localStorage.getItem('skola-silent-v4') || localStorage.getItem('skola-silent-v3') || '{}';
+    const saved = JSON.parse(raw);
+    const skills = {};
+    Object.keys(ACTIVITIES).forEach((id) => { skills[id] = { ...DEFAULT_SKILLS[id], ...((saved.skills || {})[id] || {}) }; });
     return {
       world: WORLDS[saved.world] ? saved.world : DEFAULT_STATE.world,
       stars: Number.isFinite(saved.stars) ? saved.stars : 0,
       muted: Boolean(saved.muted),
       progress: { ...DEFAULT_PROGRESS, ...(saved.progress || {}) },
+      skills,
+      seenDemos: { ...(saved.seenDemos || {}) },
       session: null,
     };
   } catch {
-    return { ...DEFAULT_STATE, progress: { ...DEFAULT_PROGRESS }, session: null };
+    return { ...DEFAULT_STATE, progress: { ...DEFAULT_PROGRESS }, skills: Object.fromEntries(Object.entries(DEFAULT_SKILLS).map(([id, skill]) => [id, { ...skill }])), seenDemos: {}, session: null };
   }
 }
 
@@ -127,21 +140,27 @@ function validateCatalog() {
   for (const [id, activity] of Object.entries(ACTIVITIES)) {
     if (!Array.isArray(activity.stages) || activity.stages.length === 0) errors.push(`No stages: ${id}`);
     if (!activity.type) errors.push(`No type: ${id}`);
+    if (!activity.skill) errors.push(`No skill key: ${id}`);
+    activity.stages?.forEach((stage, index) => {
+      if (!Number.isFinite(stage.difficulty)) errors.push(`No numeric difficulty: ${id}[${index}]`);
+    });
   }
   if (errors.length) throw new Error(`Skola catalog invalid:\n${errors.join('\n')}`);
 }
 
 function saveState() {
-  localStorage.setItem('skola-silent-v3', JSON.stringify({
+  localStorage.setItem('skola-silent-v4', JSON.stringify({
     world: state.world,
     stars: state.stars,
     muted: state.muted,
     progress: state.progress,
+    skills: state.skills,
+    seenDemos: state.seenDemos,
   }));
 }
 
 function totalProgress() {
-  return Object.values(state.progress).reduce((sum, value) => sum + value, 0);
+  return Object.values(state.progress).reduce((sum, value) => sum + Math.min(ACTIVITY_MILESTONES, value), 0);
 }
 
 function renderApp() {
@@ -149,7 +168,8 @@ function renderApp() {
   $('#overlayStars').textContent = state.stars;
   $('#soundButton').textContent = state.muted ? '♫' : '♪';
   $('#soundButton').classList.toggle('muted', state.muted);
-  $$('.world-tab').forEach((tab) => tab.classList.toggle('active', tab.dataset.world === state.world));
+  $$('.world-node').forEach((node) => node.classList.toggle('active', node.dataset.world === state.world));
+  $('#builder').dataset.world = state.world;
   renderWorldProgress();
   renderActivities();
   saveState();
@@ -168,51 +188,57 @@ function renderActivities() {
   const grid = $('#activityGrid');
   grid.innerHTML = '';
   const ids = WORLDS[state.world];
-  const firstIncomplete = ids.find((id) => state.progress[id] < ACTIVITIES[id].stages.length);
+  const firstIncomplete = ids.find((id) => (state.progress[id] || 0) < ACTIVITY_MILESTONES);
 
   ids.forEach((id) => {
     const activity = ACTIVITIES[id];
-    const completed = state.progress[id] || 0;
-    const total = activity.stages.length;
+    const completed = Math.min(ACTIVITY_MILESTONES, state.progress[id] || 0);
     const card = document.createElement('button');
     card.className = `activity-card ${id === firstIncomplete ? 'current' : ''}`;
     card.dataset.activity = id;
     card.setAttribute('aria-label', id);
-    const dots = Array.from({ length: total }, (_, index) => `<i class="${index < completed ? 'filled' : ''}"></i>`).join('');
+    const dots = Array.from({ length: ACTIVITY_MILESTONES }, (_, index) => `<i class="${index < completed ? 'filled' : ''}"></i>`).join('');
     card.innerHTML = `
       <div class="card-ring"></div>
       <div class="card-art ${activity.art}"></div>
       <div class="card-footer">
         <span class="progress-dots">${dots}</span>
-        <span class="card-badge ${completed >= total ? 'done' : ''}">${completed >= total ? '✓' : '▶'}</span>
+        <span class="card-badge ${completed >= ACTIVITY_MILESTONES ? 'done' : ''}">${completed >= ACTIVITY_MILESTONES ? '✓' : '▶'}</span>
       </div>`;
     card.addEventListener('click', () => openActivity(id));
     grid.appendChild(card);
   });
 }
 
-function startIndexFor(id) {
-  const total = ACTIVITIES[id].stages.length;
-  const saved = state.progress[id] || 0;
-  return saved >= total ? 0 : saved;
+function clamp(value, min = 0, max = 1) { return Math.max(min, Math.min(max, value)); }
+
+function chooseStageIndex(id, avoid = -1) {
+  const activity = ACTIVITIES[id];
+  const skill = state.skills[id] || DEFAULT_SKILLS[id];
+  const maxDifficulty = Math.max(...activity.stages.map((stage, index) => stage.difficulty ?? index + 1));
+  const target = 1 + clamp(skill.mastery) * (maxDifficulty - 1);
+  return activity.stages
+    .map((stage, index) => ({ index, distance: Math.abs((stage.difficulty ?? index + 1) - target) + (index === avoid ? .28 : 0) }))
+    .sort((a, b) => a.distance - b.distance || a.index - b.index)[0].index;
+}
+
+function resetStageTelemetry() {
+  if (!state.session) return;
+  state.session.stageStartedAt = performance.now();
+  state.session.stageErrors = 0;
+  state.session.stageHints = 0;
 }
 
 function openActivity(id) {
   closeSessionTimers();
-  const index = startIndexFor(id);
+  const index = chooseStageIndex(id);
   const activity = ACTIVITIES[id];
   state.session = {
-    id,
-    index,
-    done: false,
-    timers: [],
-    hintTimer: null,
-    selected: new Set(),
-    input: [],
-    locked: false,
+    id, index, round: 0, rounds: ACTIVITY_MILESTONES, done: false, timers: [], hintTimer: null,
+    selected: new Set(), input: [], locked: false,
     angle: activity.type === 'angle' ? activity.stages[index].start : 0,
     ramp: activity.type === 'ramp' ? activity.stages[index].start : 0,
-    dragOrder: [],
+    dragOrder: [], stageStartedAt: performance.now(), stageErrors: 0, stageHints: 0,
   };
   overlay.classList.add('open');
   overlay.setAttribute('aria-hidden', 'false');
@@ -239,12 +265,12 @@ function renderStage() {
   const activity = ACTIVITIES[session.id];
   const stage = activity.stages[session.index];
   $('#overlayStars').textContent = state.stars;
-  $('#gameProgress').innerHTML = activity.stages.map((_, index) => `<i class="${index <= session.index ? 'filled' : ''}"></i>`).join('');
+  $('#gameProgress').innerHTML = Array.from({ length: session.rounds }, (_, index) => `<i class="${index <= session.round ? 'filled' : ''}"></i>`).join('');
   $('#stageTarget').innerHTML = renderTarget(activity.type, stage);
   $('#stageBoard').innerHTML = '';
 
   const renderer = {
-    choice: renderChoiceStage,
+    fit: renderFitStage,
     fraction: renderFractionStage,
     mirror: renderMirrorStage,
     pattern: renderPatternStage,
@@ -255,13 +281,16 @@ function renderStage() {
     order: renderOrderStage,
   }[activity.type];
 
+  if (!renderer) throw new Error(`Missing renderer for ${activity.type}`);
   renderer(stage);
+  resetStageTelemetry();
+  scheduleFirstDemo(activity.type);
   scheduleHint();
 }
 
 function renderTarget(type, stage) {
-  if (type === 'choice') return `<div class="target-bubble">${shapeHTML(stage.target.value)}</div>`;
-  if (type === 'fraction') return `<div class="target-bubble">${fractionHTML(stage.target)}</div>`;
+  if (type === 'fit') return `<div class="target-bubble fit-target-bubble"><div class="fit-target-shape">${shapeHTML(stage.target)}</div></div>`;
+  if (type === 'fraction') return `<div class="target-bubble fraction-copy-target">${fractionHTML(stage.target)}</div>`;
   if (type === 'mirror') return `<div class="target-bubble">${butterflySVG()}</div>`;
   if (type === 'pattern') return `<div class="pattern-strip">${stage.sequence.map((shape) => `<div class="pattern-slot">${shapeHTML(shape)}</div>`).join('')}<div class="pattern-arrow"></div><div class="pattern-slot blank"></div></div>`;
   if (type === 'angle') return angleHTML(stage.target, true);
@@ -272,42 +301,100 @@ function renderTarget(type, stage) {
   return '<div class="target-bubble"></div>';
 }
 
-function renderChoiceStage(stage) {
-  renderChoices(stage.options, stage.answer, (option) => shapeHTML(option));
+function renderFitStage(stage) {
+  const board = $('#stageBoard');
+  board.innerHTML = `
+    <div class="fit-lab">
+      <div class="fit-drop" data-accept="${stage.target}"><div class="fit-silhouette">${shapeHTML(stage.target)}</div></div>
+      <div class="fit-tray">${stage.options.map((shape) => `<button class="fit-piece" data-value="${shape}" data-correct="${shape === stage.target}" aria-label="move shape">${shapeHTML(shape)}</button>`).join('')}</div>
+    </div>`;
+  $$('.fit-piece', board).forEach((piece) => enablePointerDrag(piece, '.fit-drop', (drop) => {
+    if (!state.session || state.session.done) return;
+    resetHint();
+    if (piece.dataset.value === drop.dataset.accept) {
+      drop.classList.add('filled');
+      drop.innerHTML = shapeHTML(piece.dataset.value);
+      piece.classList.add('placed');
+      playTap();
+      completeStage();
+    } else {
+      markWrong(piece);
+      drop.classList.add('reject');
+      setTimeout(() => drop.classList.remove('reject'), 300);
+    }
+  }));
 }
 
 function renderFractionStage(stage) {
-  renderChoices(stage.options, stage.answer, fractionHTML);
+  const board = $('#stageBoard');
+  const needed = stage.target.fill.length;
+  board.innerHTML = `
+    <div class="fraction-build">
+      <div class="fraction-work cols-${stage.target.parts}">${Array.from({ length: stage.target.parts }, (_, index) => `<div class="fraction-build-cell" data-slot="${index}"></div>`).join('')}</div>
+      <div class="fraction-tray">${Array.from({ length: needed }, (_, index) => `<button class="fraction-piece" data-piece="${index}" aria-label="move piece"><span></span></button>`).join('')}</div>
+    </div>`;
+  state.session.selected = new Set();
+  $$('.fraction-piece', board).forEach((piece) => enablePointerDrag(piece, '.fraction-build-cell', (cell) => {
+    if (!state.session || state.session.done || piece.classList.contains('placed') || cell.classList.contains('filled')) return;
+    resetHint();
+    cell.classList.add('filled');
+    piece.classList.add('placed');
+    state.session.selected.add(piece.dataset.piece);
+    playTap();
+    if (state.session.selected.size === needed) completeStage();
+  }));
 }
 
 function renderPatternStage(stage) {
-  renderChoices(stage.options, stage.answer, shapeHTML);
+  const board = $('#stageBoard');
+  board.innerHTML = `
+    <div class="pattern-build">
+      <div class="pattern-work">${stage.sequence.map((shape) => `<div class="pattern-fixed">${shapeHTML(shape)}</div>`).join('')}<div class="pattern-drop"></div></div>
+      <div class="pattern-tray">${stage.options.map((shape, index) => `<button class="pattern-piece" data-index="${index}" data-correct="${index === stage.answer}" aria-label="move shape">${shapeHTML(shape)}</button>`).join('')}</div>
+    </div>`;
+  $$('.pattern-piece', board).forEach((piece) => enablePointerDrag(piece, '.pattern-drop', (drop) => {
+    if (!state.session || state.session.done) return;
+    resetHint();
+    if (piece.dataset.correct === 'true') {
+      drop.classList.add('filled');
+      drop.innerHTML = piece.innerHTML;
+      piece.classList.add('placed');
+      playTap();
+      completeStage();
+    } else {
+      markWrong(piece);
+    }
+  }));
 }
 
-function renderChoices(options, answer, renderOption) {
-  const grid = document.createElement('div');
-  grid.className = 'choice-grid';
-  options.forEach((option, index) => {
-    const button = document.createElement('button');
-    button.className = 'answer-card';
-    button.dataset.correct = String(index === answer);
-    button.innerHTML = renderOption(option);
-    button.addEventListener('click', () => handleChoice(button, index === answer));
-    grid.appendChild(button);
+function enablePointerDrag(item, targetSelector, onDrop) {
+  item.addEventListener('pointerdown', (event) => {
+    if (!state.session || state.session.done || item.classList.contains('placed')) return;
+    event.preventDefault();
+    resetHint();
+    const rect = item.getBoundingClientRect();
+    const ghost = item.cloneNode(true);
+    ghost.classList.add('drag-ghost', 'manipulation-ghost');
+    ghost.style.width = `${rect.width}px`;
+    ghost.style.height = `${rect.height}px`;
+    document.body.appendChild(ghost);
+    item.classList.add('drag-source');
+    const move = (moveEvent) => {
+      ghost.style.left = `${moveEvent.clientX - rect.width / 2}px`;
+      ghost.style.top = `${moveEvent.clientY - rect.height / 2}px`;
+    };
+    const release = (upEvent) => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', release);
+      const target = document.elementFromPoint(upEvent.clientX, upEvent.clientY)?.closest(targetSelector);
+      ghost.remove();
+      item.classList.remove('drag-source');
+      if (target) onDrop(target);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', release);
+    move(event);
   });
-  $('#stageBoard').appendChild(grid);
-}
-
-function handleChoice(button, correct) {
-  if (!state.session || state.session.done) return;
-  resetHint();
-  if (correct) {
-    $$('.answer-card').forEach((card) => { card.style.pointerEvents = 'none'; });
-    button.classList.add('correct');
-    completeStage();
-  } else {
-    markWrong(button);
-  }
 }
 
 function renderMirrorStage(stage) {
@@ -627,42 +714,78 @@ function placeOrderItem(item, slot) {
   }
 }
 
+function recordStageSuccess() {
+  const session = state.session;
+  if (!session) return;
+  const skill = state.skills[session.id] || (state.skills[session.id] = { ...DEFAULT_SKILLS[session.id] });
+  const elapsed = Math.max(1, performance.now() - session.stageStartedAt);
+  skill.attempts += 1;
+  skill.successes += 1;
+  skill.streak += 1;
+  skill.avgMs = skill.avgMs ? Math.round(skill.avgMs * .72 + elapsed * .28) : Math.round(elapsed);
+  const clean = session.stageErrors === 0 && session.stageHints === 0;
+  const delta = clean && elapsed < 12000 ? .16 : clean ? .11 : session.stageErrors <= 1 && session.stageHints === 0 ? .075 : .035;
+  skill.mastery = clamp(skill.mastery + delta * (1 - skill.mastery));
+}
+
+function recordStageError() {
+  if (!state.session) return;
+  state.session.stageErrors += 1;
+  const skill = state.skills[state.session.id];
+  skill.errors += 1;
+  skill.streak = 0;
+  skill.mastery = clamp(skill.mastery - .025);
+}
+
+function recordStageHint() {
+  if (!state.session) return;
+  state.session.stageHints += 1;
+  const skill = state.skills[state.session.id];
+  skill.hints += 1;
+  skill.mastery = clamp(skill.mastery - .012);
+}
+
 function completeStage() {
   if (!state.session || state.session.done) return;
   state.session.done = true;
+  recordStageSuccess();
   playSuccess();
-  const { id, index } = state.session;
-  const previous = state.progress[id] || 0;
-  const total = ACTIVITIES[id].stages.length;
+  const { id } = state.session;
+  const previous = Math.min(ACTIVITY_MILESTONES, state.progress[id] || 0);
 
-  if (index === previous && previous < total) {
+  if (previous < ACTIVITY_MILESTONES) {
     state.progress[id] = previous + 1;
     state.stars += 1;
     renderApp();
+  } else {
+    saveState();
   }
 
   burst(true);
-  const isLast = index === total - 1;
+  state.session.round += 1;
+  const finishedSession = state.session.round >= state.session.rounds;
   addTimer(setTimeout(() => {
     if (!state.session) return;
-    if (isLast) {
+    if (finishedSession) {
       closeActivity();
       return;
     }
-    state.session.index += 1;
+    const activity = ACTIVITIES[id];
+    state.session.index = chooseStageIndex(id, state.session.index);
     state.session.done = false;
     state.session.selected = new Set();
     state.session.input = [];
     state.session.locked = false;
-    const activity = ACTIVITIES[id];
     const nextStage = activity.stages[state.session.index];
     if (activity.type === 'angle') state.session.angle = nextStage.start;
     if (activity.type === 'ramp') state.session.ramp = nextStage.start;
     renderStage();
-  }, isLast ? 900 : 760));
+  }, finishedSession ? 900 : 720));
 }
 
 function markWrong(node) {
+  if (!state.session) return;
+  recordStageError();
   node.classList.add('wrong', 'bad');
   playFail();
   setTimeout(() => node.classList.remove('wrong', 'bad'), 280);
@@ -678,53 +801,104 @@ function resetHint() {
   scheduleHint();
 }
 
+function scheduleFirstDemo(type) {
+  if (!state.session || state.seenDemos[type]) return;
+  addTimer(setTimeout(() => {
+    if (!state.session || state.session.done || state.seenDemos[type]) return;
+    state.seenDemos[type] = true;
+    saveState();
+    showGestureDemo(type);
+  }, 520));
+}
+
 function scheduleHint() {
   if (!state.session) return;
   clearTimeout(state.session.hintTimer);
-  state.session.hintTimer = setTimeout(showHint, 3600);
+  state.session.hintTimer = setTimeout(showHint, 4200);
+}
+
+function elementCenter(element, boardRect) {
+  const rect = element.getBoundingClientRect();
+  return { x: rect.left - boardRect.left + rect.width / 2, y: rect.top - boardRect.top + rect.height / 2 };
+}
+
+function showGestureDemo(type = ACTIVITIES[state.session?.id]?.type) {
+  if (!state.session || state.session.done) return;
+  const board = $('#stageBoard');
+  if (!board || $('.gesture-hand', board)) return;
+  const boardRect = board.getBoundingClientRect();
+  let from = null;
+  let to = null;
+  let tapOnly = false;
+
+  if (type === 'fit') { from = $('.fit-piece[data-correct="true"]', board); to = $('.fit-drop', board); }
+  if (type === 'fraction') { from = $('.fraction-piece:not(.placed)', board); to = $('.fraction-build-cell:not(.filled)', board); }
+  if (type === 'pattern') { from = $('.pattern-piece[data-correct="true"]', board); to = $('.pattern-drop', board); }
+  if (type === 'order') { from = $('.order-item:not(.placed)', board); to = $('.order-slot', board); }
+  if (type === 'mirror') { from = $('.mirror-cell.target[data-correct="true"]:not(.good)', board); to = from; tapOnly = true; }
+  if (type === 'rhythm') { from = $('.xylophone-bar', board); to = from; tapOnly = true; }
+  if (type === 'mix') {
+    const activity = ACTIVITIES[state.session.id];
+    const stage = activity.stages[state.session.index];
+    from = $(`.drop[data-index="${stage.answer[0]}"]`, board); to = from; tapOnly = true;
+  }
+  if (type === 'angle') {
+    from = $('.angle-knob', board);
+    if (from) to = { x: boardRect.width * .67, y: boardRect.height * .36 };
+  }
+  if (type === 'ramp') {
+    from = $('.ramp-knob', board);
+    if (from) to = { x: boardRect.width * .72, y: boardRect.height * .56 };
+  }
+  if (!from) return;
+
+  const start = elementCenter(from, boardRect);
+  const end = to instanceof Element ? elementCenter(to, boardRect) : (to || start);
+  const hand = document.createElement('div');
+  hand.className = 'gesture-hand';
+  hand.setAttribute('aria-hidden', 'true');
+  hand.innerHTML = '<span></span>';
+  hand.style.left = `${start.x}px`;
+  hand.style.top = `${start.y}px`;
+  board.appendChild(hand);
+
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const frames = tapOnly ? [
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(.9)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: .25 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(.72)', offset: .55 },
+    { opacity: 1, transform: 'translate(-50%,-50%) scale(1)', offset: .72 },
+    { opacity: 0, transform: 'translate(-50%,-50%) scale(1)' },
+  ] : [
+    { opacity: 0, transform: 'translate(-50%,-50%) translate(0,0) scale(.92)' },
+    { opacity: 1, transform: 'translate(-50%,-50%) translate(0,0) scale(1)', offset: .18 },
+    { opacity: 1, transform: `translate(-50%,-50%) translate(${dx}px,${dy}px) scale(.9)`, offset: .76 },
+    { opacity: 0, transform: `translate(-50%,-50%) translate(${dx}px,${dy}px) scale(.78)` },
+  ];
+  const animation = hand.animate(frames, { duration: tapOnly ? 950 : 1350, easing: 'cubic-bezier(.2,.8,.2,1)' });
+  animation.onfinish = () => hand.remove();
 }
 
 function showHint() {
   if (!state.session || state.session.done) return;
   const activity = ACTIVITIES[state.session.id];
   const stage = activity.stages[state.session.index];
+  recordStageHint();
+  showGestureDemo(activity.type);
 
-  if (['choice', 'fraction', 'pattern'].includes(activity.type)) {
-    const correct = $('.answer-card[data-correct="true"]');
-    if (correct) {
-      correct.classList.add('hint');
-      setTimeout(() => correct.classList.remove('hint'), 760);
-    }
-  }
   if (activity.type === 'mirror') {
-    mirrorTargets(stage).forEach((key) => {
-      const cell = $(`.mirror-cell[data-key="${key}"]`);
-      if (cell && !cell.classList.contains('good')) {
-        cell.classList.add('hint');
-        setTimeout(() => cell.classList.remove('hint'), 760);
-      }
-    });
-  }
-  if (['angle', 'ramp', 'order'].includes(activity.type)) {
-    const board = $('#stageBoard');
-    if (!$('.idle-hand', board)) {
-      const hand = document.createElement('div');
-      hand.className = 'idle-hand';
-      hand.textContent = '☝︎';
-      board.appendChild(hand);
-      setTimeout(() => hand.remove(), 1100);
-    }
+    const next = mirrorTargets(stage).map((key) => $(`.mirror-cell[data-key="${key}"]`)).find((cell) => cell && !cell.classList.contains('good'));
+    if (next) { next.classList.add('hint'); setTimeout(() => next.classList.remove('hint'), 760); }
   }
   if (activity.type === 'rhythm') playSequence(stage.sequence);
   if (activity.type === 'mix') {
     stage.answer.forEach((index) => {
       const drop = $(`.drop[data-index="${index}"]`);
-      if (drop) {
-        drop.classList.add('hint');
-        setTimeout(() => drop.classList.remove('hint'), 760);
-      }
+      if (drop) { drop.classList.add('hint'); setTimeout(() => drop.classList.remove('hint'), 760); }
     });
   }
+  scheduleHint();
 }
 
 function shapeHTML(name) {
@@ -833,7 +1007,7 @@ document.addEventListener('pointerdown', () => {
   getAudioContext(true);
 }, { once: true, passive: true });
 
-$$('.world-tab').forEach((tab) => tab.addEventListener('click', () => { state.world = tab.dataset.world; renderApp(); }));
+$$('.world-node').forEach((node) => node.addEventListener('click', () => { state.world = node.dataset.world; playTap(); renderApp(); }));
 $('#homeButton').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 $('#soundButton').addEventListener('click', () => { state.muted = !state.muted; renderApp(); });
 $('#closeGame').addEventListener('click', closeActivity);
