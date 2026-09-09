@@ -48,7 +48,7 @@ Then open `http://localhost:8080`.
 
 ```bash
 python3 tests/validate.py
-node --check programming.js
+python3 tests/validate_programming.py
 ```
 
 With a local Chrome DevTools session available, the deeper interaction suite is:
@@ -57,6 +57,6 @@ With a local Chrome DevTools session available, the deeper interaction suite is:
 python3 tests/browser_smoke.py
 ```
 
-The validation checks JavaScript syntax, required product files, offline/static-resource assumptions, the wordless child shell, minimum touch-target styling, and the presence of every activity renderer.
+The validation checks JavaScript syntax, required product files, offline/static-resource assumptions, the wordless child shell, minimum touch-target styling, the programming command vocabulary, and the presence of every activity renderer.
 
 For the current milestone, browser QA was also performed in headless Google Chrome at desktop and iPad-sized viewports with interaction smoke tests across every subject world.
