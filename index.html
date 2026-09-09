@@ -12,6 +12,7 @@
   <title>Skola</title>
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="programming.css" />
 </head>
 <body>
   <div class="app-shell">
@@ -37,6 +38,7 @@
           <button class="world-node node-physics" data-world="physics" aria-label="Physics"><span class="world-icon icon-physics" aria-hidden="true"></span></button>
           <button class="world-node node-chemistry" data-world="chemistry" aria-label="Chemistry"><span class="world-icon icon-chemistry" aria-hidden="true"></span></button>
           <button class="world-node node-nature" data-world="nature" aria-label="Nature"><span class="world-icon icon-nature" aria-hidden="true"></span></button>
+          <button class="code-world-node node-programming" data-world="programming" aria-label="Programming"><span class="world-icon icon-programming" aria-hidden="true"></span></button>
           <div class="mascot"><i></i><b></b><em></em></div>
           <i class="build-piece tree"></i>
           <i class="build-piece house"></i>
@@ -67,6 +69,8 @@
   </div>
 
   <div class="celebration-layer" id="celebrationLayer" aria-hidden="true"></div>
+  <script>try{window.__skolaBootWorld=JSON.parse(localStorage.getItem('skola-silent-v4')||'{}').world}catch{}</script>
   <script src="app.js"></script>
+  <script src="programming.js"></script>
 </body>
 </html>
