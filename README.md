@@ -9,12 +9,15 @@ The child-facing interface is designed to work before fluent reading: learning i
 ## Current playable worlds
 
 - **Math / geometry:** drag-to-fit shapes, construct fractions, symmetry, drag-complete patterns, angle rotation
+- **Programming:** visual block programs with sequencing, loops, conditions, state/variables, and debugging
 - **Music:** rhythm and melody imitation
 - **Physics:** adjustable ramp matching
 - **Chemistry:** visual color mixing
 - **Nature:** touch-drag life-cycle / sequence ordering
 
 Progress persists locally and visibly builds the home island. The island itself is now the subject navigation: children select worlds by touching objects in the scene rather than using a conventional menu.
+
+The programming world is aimed first at a capable child around age 8. It uses a small robot/grid interpreter and pictographic command blocks rather than syntax or written explanations. See [`PROGRAMMING_CURRICULUM.md`](PROGRAMMING_CURRICULUM.md).
 
 ## Product specification
 
@@ -45,6 +48,7 @@ Then open `http://localhost:8080`.
 
 ```bash
 python3 tests/validate.py
+node --check programming.js
 ```
 
 With a local Chrome DevTools session available, the deeper interaction suite is:
