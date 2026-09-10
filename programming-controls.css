@@ -1,0 +1,60 @@
+/* Keep the programming action controls visible while the command workspace scrolls. */
+.program-lab {
+  min-height: 0;
+  height: 100%;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 86px;
+  position: relative;
+}
+
+.program-controls {
+  position: sticky;
+  bottom: 0;
+  z-index: 30;
+  flex: 0 0 auto;
+  margin: 0 -18px -18px;
+  padding: 10px 18px max(10px, env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, rgba(251,252,255,.28) 0%, rgba(251,252,255,.96) 28%, #fbfcff 100%);
+  border-top: 1px solid rgba(226,231,243,.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.program-run {
+  position: relative;
+  z-index: 31;
+}
+
+@media (max-height: 680px) and (orientation: landscape) {
+  .program-lab {
+    padding-bottom: 66px;
+  }
+
+  .program-controls {
+    margin: 0 -12px -12px;
+    padding: 7px 12px max(7px, env(safe-area-inset-bottom));
+  }
+
+  .program-undo,
+  .program-run {
+    width: 56px;
+    height: 48px;
+    min-height: 48px;
+  }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  .program-lab {
+    overflow: auto;
+    grid-template-rows: 0 auto auto auto;
+    align-content: start;
+    padding-bottom: 60px;
+  }
+
+  .program-controls {
+    bottom: 0;
+    margin: 0 -10px -10px;
+    padding: 6px 10px max(6px, env(safe-area-inset-bottom));
+  }
+}
