@@ -1,44 +1,46 @@
-/* Programming panel layout: controls always visible without overlapping content. */
+/* Programming panel layout: controls stay visible without overlapping content. */
 
-/*
- * Keep every programming section in normal layout flow. The previous absolute
- * footer kept Run visible, but it could cover the command palette. This grid
- * reserves a real final row for the controls instead.
- */
 .stage-board:has(.program-lab) {
+  container-type: size;
+  container-name: programboard;
   min-height: 0;
   overflow: hidden;
-  padding: clamp(8px, 1.8vw, 18px);
+  padding: clamp(8px, 1.6vw, 16px);
 }
 
 .program-lab {
   box-sizing: border-box;
   width: 100%;
   height: 100%;
+  min-width: 0;
   min-height: 0;
-  max-height: 100%;
   overflow: hidden;
   display: grid;
-  grid-template-rows: auto auto minmax(56px, 1fr) auto;
-  align-content: stretch;
-  gap: clamp(6px, 1.2vh, 12px);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: 30px 56px minmax(0, 1fr) 58px;
+  grid-template-areas:
+    "runtime"
+    "slots"
+    "palette"
+    "controls";
+  gap: clamp(5px, 1vh, 9px);
   padding: 0;
 }
 
 .program-runtime {
-  min-height: 30px;
-  flex: 0 0 auto;
+  grid-area: runtime;
+  min-width: 0;
+  min-height: 0;
 }
 
-/* Program blocks stay on one line. On narrow screens they scroll sideways
- * rather than growing vertically and pushing the controls below the viewport. */
 .program-slots {
-  min-height: 54px;
-  max-height: 62px;
+  grid-area: slots;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: flex-start;
   gap: 8px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -51,29 +53,34 @@
   flex: 0 0 auto;
 }
 
-/* The palette owns the flexible vertical space. It may scroll internally if a
- * future lesson adds many commands, while Run/Undo remain a separate row. */
 .program-palette {
+  grid-area: palette;
+  min-width: 0;
   min-height: 0;
-  max-height: 100%;
-  overflow-y: auto;
-  overflow-x: hidden;
+  max-height: none;
+  overflow: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-content: center;
-  padding: clamp(6px, 1.4vw, 12px);
+  gap: 8px;
+  padding: clamp(6px, 1.3vw, 10px);
   overscroll-behavior: contain;
 }
 
 .program-controls {
+  grid-area: controls;
   position: static;
   inset: auto;
   z-index: auto;
-  flex: 0 0 auto;
+  min-width: 0;
+  min-height: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 12px;
   margin: 0;
-  padding: 2px 0 max(2px, env(safe-area-inset-bottom));
+  padding: 0 0 max(2px, env(safe-area-inset-bottom));
   background: transparent;
   border: 0;
   backdrop-filter: none;
@@ -87,99 +94,119 @@
   flex: 0 0 auto;
 }
 
-@media (max-width: 720px) {
+/* The actual programming panel height matters more than viewport height.
+ * When the stage is shallow, palette and controls share the lower row instead
+ * of competing vertically. This keeps Play/Undo visible with zero overlap. */
+@container programboard (max-height: 255px) {
   .program-lab {
-    gap: 6px;
-    grid-template-rows: auto auto minmax(50px, 1fr) auto;
-  }
-
-  .program-slots {
-    min-height: 50px;
-    max-height: 56px;
-    gap: 6px;
-  }
-
-  .program-palette {
-    padding: 6px;
-    gap: 6px;
-  }
-
-  .program-slot,
-  .program-token {
-    min-width: 48px;
-    height: 50px;
-    min-height: 50px;
-  }
-}
-
-/* Short tablet/laptop landscape views need a compact vertical composition. */
-@media (max-height: 760px) and (orientation: landscape) {
-  .stage-board:has(.program-lab) {
-    padding: 8px 10px;
-  }
-
-  .program-lab {
-    grid-template-rows: 0 auto minmax(44px, 1fr) auto;
-    gap: 5px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: 52px minmax(0, 1fr);
+    grid-template-areas:
+      "slots slots"
+      "palette controls";
+    gap: 7px 10px;
   }
 
   .program-runtime {
-    visibility: hidden;
-    min-height: 0;
-    height: 0;
-    overflow: hidden;
+    display: none;
   }
 
   .program-slots {
-    min-height: 46px;
-    max-height: 50px;
-    padding-block: 1px 3px;
+    min-height: 0;
+    padding: 1px 3px 4px;
   }
 
   .program-palette {
-    padding: 4px 6px;
-    gap: 5px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 5px 7px;
+  }
+
+  .program-token {
+    flex: 0 0 auto;
+  }
+
+  .program-controls {
+    align-self: stretch;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 0;
   }
 
   .program-slot,
   .program-token {
-    min-width: 44px;
+    min-width: 46px;
+    width: 46px;
     height: 46px;
     min-height: 46px;
-    border-radius: 13px;
+    border-radius: 14px;
   }
 
   .program-undo,
   .program-run {
-    width: 54px;
-    height: 46px;
-    min-height: 46px;
-    border-radius: 16px;
+    width: 52px;
+    height: 52px;
+    min-height: 52px;
+    border-radius: 17px;
   }
 }
 
-@media (max-height: 520px) and (orientation: landscape) {
+@container programboard (max-height: 190px) {
   .program-lab {
-    grid-template-rows: 0 auto minmax(40px, 1fr) auto;
-    gap: 4px;
-  }
-
-  .program-slots {
-    min-height: 42px;
-    max-height: 46px;
+    grid-template-rows: 44px minmax(0, 1fr);
+    gap: 5px 8px;
   }
 
   .program-slot,
   .program-token {
     min-width: 40px;
-    height: 42px;
-    min-height: 42px;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    border-radius: 12px;
   }
 
   .program-undo,
   .program-run {
-    width: 50px;
-    height: 42px;
-    min-height: 42px;
+    width: 44px;
+    height: 44px;
+    min-height: 44px;
+    border-radius: 14px;
+  }
+
+  .program-palette {
+    gap: 5px;
+    padding: 4px 5px;
+  }
+}
+
+@media (max-width: 720px) {
+  .stage-board:has(.program-lab) {
+    padding: 8px;
+  }
+
+  .program-lab {
+    grid-template-rows: 28px 52px minmax(0, 1fr) 54px;
+    gap: 6px;
+  }
+
+  .program-slots {
+    gap: 6px;
+  }
+
+  .program-palette {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .program-slot,
+  .program-token {
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
   }
 }

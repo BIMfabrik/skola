@@ -7,6 +7,8 @@ REQUIRED = [
     "programming.js",
     "programming-round-reset.js",
     "programming.css",
+    "programming-controls.css",
+    "programming-toy.css",
     "PROGRAMMING_CURRICULUM.md",
 ]
 
@@ -27,9 +29,7 @@ def main():
 
     for name in ["programming.js", "programming-round-reset.js"]:
         result = subprocess.run(
-            ["node", "--check", str(ROOT / name)],
-            capture_output=True,
-            text=True,
+            ["node", "--check", str(ROOT / name)], capture_output=True, text=True
         )
         if result.returncode:
             problems += fail(result.stderr.strip() or f"JavaScript syntax: {name}")
@@ -38,12 +38,16 @@ def main():
     js = (ROOT / "programming.js").read_text(encoding="utf-8")
     reset_js = (ROOT / "programming-round-reset.js").read_text(encoding="utf-8")
     css = (ROOT / "programming.css").read_text(encoding="utf-8")
+    controls_css = (ROOT / "programming-controls.css").read_text(encoding="utf-8")
+    toy_css = (ROOT / "programming-toy.css").read_text(encoding="utf-8")
 
     for marker in [
         'data-world="programming"',
         'src="programming.js"',
         'src="programming-round-reset.js"',
         'href="programming.css"',
+        'href="programming-controls.css"',
+        'href="programming-toy.css"',
     ]:
         if marker not in html:
             problems += fail(f"programming shell marker missing: {marker}")
@@ -85,7 +89,26 @@ def main():
         if selector not in css:
             problems += fail(f"programming style missing: {selector}")
 
-    if "prefers-reduced-motion" not in css:
+    for marker in [
+        "container-name: programboard",
+        "grid-template-areas",
+        'grid-area: controls',
+        "@container programboard",
+    ]:
+        if marker not in controls_css:
+            problems += fail(f"responsive controls capability missing: {marker}")
+
+    for marker in [
+        ".program-grid",
+        ".program-robot",
+        ".program-token",
+        ".program-run",
+        "box-shadow",
+    ]:
+        if marker not in toy_css:
+            problems += fail(f"3D visual marker missing: {marker}")
+
+    if "prefers-reduced-motion" not in css or "prefers-reduced-motion" not in toy_css:
         problems += fail("programming reduced-motion support missing")
 
     if problems:
