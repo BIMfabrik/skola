@@ -1,6 +1,6 @@
 /* Harder route-planning puzzles for the programming world. */
 (() => {
-  if (!window.ACTIVITIES?.codeSequence || !window.ACTIVITIES?.codeRepeat) return;
+  if (typeof ACTIVITIES === 'undefined' || !ACTIVITIES.codeSequence || !ACTIVITIES.codeRepeat) return;
 
   ACTIVITIES.codeSequence.stages = [
     {
