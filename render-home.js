@@ -2,27 +2,33 @@
   const root = document.getElementById('renderHome');
   const art = document.getElementById('renderArt');
   if (!root || !art) return;
-  document.body.classList.add('render-home-active');
 
-  const loadRender = async () => {
+  const activateRender = async () => {
     try {
-      const parts = await Promise.all([0,1,2,3,4].map(async (index) => {
-        const response = await fetch(`assets/render-home-b64-${index}.txt`, { cache: 'force-cache' });
+      const parts = [];
+      for (let index = 0; index < 10; index += 1) {
+        const response = await fetch(`assets/render-v2-${index}.txt`, { cache: 'force-cache' });
         if (!response.ok) throw new Error(`render chunk ${index}: ${response.status}`);
-        return (await response.text()).replace(/\s/g, '');
-      }));
-      art.src = `data:image/jpeg;base64,${parts.join('')}`;
-      art.addEventListener('load', () => art.classList.add('ready'), { once: true });
-      if (art.complete) art.classList.add('ready');
+        parts.push((await response.text()).replace(/\s/g, ''));
+      }
+
+      const payload = parts.join('');
+      if (!payload.startsWith('/9j/') || payload.length % 4 !== 0) {
+        throw new Error('render payload is invalid');
+      }
+
+      art.src = `data:image/jpeg;base64,${payload}`;
+      if (art.decode) await art.decode();
+      art.classList.add('ready');
+      document.body.classList.add('render-home-active');
     } catch (error) {
       console.error('Skola render failed to load', error);
-      const message = document.createElement('div');
-      message.className = 'render-load-error';
-      message.textContent = 'Skola';
-      root.querySelector('.render-canvas')?.appendChild(message);
+      root.setAttribute('hidden', '');
+      document.body.classList.remove('render-home-active');
     }
   };
-  loadRender();
+
+  activateRender();
 
   const firstActivity = (world) => {
     const ids = WORLDS[world] || [];
