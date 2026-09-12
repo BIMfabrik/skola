@@ -1,0 +1,31 @@
+/* Render-first home. The generated illustration is the visual source of truth. */
+html, body { background:#d9ecfb; }
+body.render-home-active { overflow:hidden; }
+.render-home-screen { position:fixed; inset:0; z-index:20; display:flex; justify-content:center; align-items:flex-start; overflow:hidden; background:#d9ecfb; }
+.render-canvas { position:relative; flex:0 0 auto; width:max(100vw, calc(100dvh * 1.50147)); aspect-ratio:1024 / 682; }
+.render-art { position:absolute; inset:0; width:100%; height:100%; display:block; object-fit:cover; user-select:none; pointer-events:none; opacity:0; transition:opacity .16s ease; }
+.render-art.ready { opacity:1; }
+.render-hotspot { position:absolute; z-index:2; min-height:0; padding:0; border:0; border-radius:2.2vw; background:transparent; cursor:pointer; touch-action:manipulation; }
+.render-hotspot:active { transform:scale(.965); }
+.render-hotspot:focus-visible { outline:4px solid rgba(255,255,255,.96); outline-offset:-4px; box-shadow:0 0 0 7px rgba(48,116,255,.7); }
+.hs-geometry { left:8.8%; top:29.4%; width:14.7%; height:17.5%; }
+.hs-music { left:24.7%; top:30.8%; width:11.4%; height:15.9%; }
+.hs-chemistry { left:37.4%; top:30.7%; width:11.1%; height:15.9%; }
+.hs-physics { left:49.9%; top:30.9%; width:11.8%; height:15.9%; }
+.hs-nature { left:64.2%; top:30.8%; width:11.4%; height:15.9%; }
+.hs-programming { left:76.8%; top:30.4%; width:12.7%; height:16.5%; }
+.hs-start { left:18.1%; top:76.0%; width:16.7%; height:7.1%; border-radius:4vw; }
+.hs-level-1 { left:36.6%; top:60.2%; width:13.0%; height:23.1%; }
+.hs-level-2 { left:50.4%; top:60.0%; width:14.5%; height:23.3%; }
+.hs-level-3 { left:66.1%; top:60.0%; width:14.3%; height:23.3%; }
+.hs-level-4 { left:81.4%; top:59.8%; width:14.3%; height:23.4%; }
+.hs-settings { right:2.4%; top:2.0%; width:5.0%; height:7.7%; border-radius:50%; }
+.hs-home { left:20.0%; bottom:1.5%; width:13.5%; height:10.2%; }
+body.render-home-active > .app-shell { visibility:hidden; pointer-events:none; }
+body.render-home-active .game-overlay { z-index:80; }
+body.render-home-active .celebration-layer { z-index:90; }
+.render-load-error { position:absolute; inset:0; display:grid; place-items:center; color:#304172; font-weight:800; background:#d9ecfb; }
+@media (orientation:portrait) and (max-width:820px) {
+  .render-home-screen { justify-content:flex-start; overflow-x:auto; overflow-y:hidden; }
+  .render-canvas { width:1024px; min-width:1024px; height:682px; }
+}
