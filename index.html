@@ -18,8 +18,28 @@
   <link rel="stylesheet" href="programming-render.css" />
   <link rel="stylesheet" href="programming-render-v3.css" />
   <link rel="stylesheet" href="castle.css" />
+  <link rel="stylesheet" href="render-home.css" />
 </head>
 <body>
+  <section class="render-home-screen" id="renderHome" aria-label="Skola learning world">
+    <div class="render-canvas">
+      <img class="render-art" id="renderArt" alt="Skola learning world with castle and subject tiles" draggable="false" />
+      <button class="render-hotspot hs-geometry" data-world="math" aria-label="Geometry"></button>
+      <button class="render-hotspot hs-music" data-world="music" aria-label="Music"></button>
+      <button class="render-hotspot hs-chemistry" data-world="chemistry" aria-label="Chemistry"></button>
+      <button class="render-hotspot hs-physics" data-world="physics" aria-label="Physics"></button>
+      <button class="render-hotspot hs-nature" data-world="nature" aria-label="Nature"></button>
+      <button class="render-hotspot hs-programming" data-world="programming" aria-label="Programming"></button>
+      <button class="render-hotspot hs-start" data-activity="shapes" aria-label="Start geometry"></button>
+      <button class="render-hotspot hs-level-1" data-activity="shapes" aria-label="Shapes"></button>
+      <button class="render-hotspot hs-level-2" data-activity="parts" aria-label="Build shapes"></button>
+      <button class="render-hotspot hs-level-3" data-activity="pattern" aria-label="Patterns"></button>
+      <button class="render-hotspot hs-level-4" data-activity="turn" aria-label="Explore space"></button>
+      <button class="render-hotspot hs-settings" data-action="sound" aria-label="Sound settings"></button>
+      <button class="render-hotspot hs-home" data-action="home" aria-label="Learning world"></button>
+    </div>
+  </section>
+
   <div class="app-shell">
     <header class="topbar">
       <button class="brand" id="homeButton" aria-label="Skola home">
@@ -78,7 +98,6 @@
             </button>
           </nav>
 
-          <!-- Retained for the existing progress engine; visually replaced by the castle. -->
           <div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
           <div class="island"></div>
           <div class="mascot"><i></i><b></b><em></em></div>
@@ -127,5 +146,6 @@
   <script src="programming-challenges.js"></script>
   <script src="programming-round-reset.js"></script>
   <script src="castle-ui.js"></script>
+  <script src="render-home.js"></script>
 </body>
 </html>
