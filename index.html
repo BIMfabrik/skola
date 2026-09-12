@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#eef2ff" />
+  <meta name="theme-color" content="#eef5ff" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
@@ -17,13 +17,14 @@
   <link rel="stylesheet" href="programming-toy.css" />
   <link rel="stylesheet" href="programming-render.css" />
   <link rel="stylesheet" href="programming-render-v3.css" />
+  <link rel="stylesheet" href="castle.css" />
 </head>
 <body>
   <div class="app-shell">
     <header class="topbar">
       <button class="brand" id="homeButton" aria-label="Skola home">
         <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 44 44"><path d="M9 12.5 22 5l13 7.5v16L22 36 9 28.5z"/><path d="M15 16.2 22 12l7 4.2v8.6L22 29l-7-4.2z"/></svg></span>
-        <span>skola</span>
+        <span class="brand-word" aria-label="Skola"><span class="s">S</span><span class="k">k</span><span class="o">o</span><span class="l">l</span><span class="a">a</span></span>
       </button>
       <div class="topbar-actions">
         <div class="metric" aria-label="stars earned"><span class="metric-star">★</span><strong id="starCount">0</strong></div>
@@ -32,17 +33,54 @@
     </header>
 
     <main class="main-scene">
-      <section class="world-stage" aria-label="progress world">
+      <section class="world-stage" aria-label="Choose a learning world">
         <div class="world-sky"></div>
-        <div class="builder" id="builder" data-world="math">
+        <div class="builder castle-scene" id="builder" data-world="math">
+          <div class="castle-structure" aria-hidden="true">
+            <span class="castle-flaglet left"></span>
+            <span class="castle-flaglet right"></span>
+            <div class="castle-tower left"></div>
+            <div class="castle-tower right"></div>
+            <div class="castle-keep">
+              <div class="battlements"><i></i><i></i><i></i><i></i><i></i></div>
+              <div class="castle-star">★</div>
+              <div class="castle-banner">Explore · Learn · Grow</div>
+              <div class="castle-door"></div>
+            </div>
+            <span class="castle-shrub one"></span>
+            <span class="castle-shrub two"></span>
+          </div>
+
+          <nav class="topic-board" aria-label="Learning topics">
+            <button class="world-node topic-tile node-math active" data-world="math" aria-label="Geometry">
+              <span class="topic-art geometry-art" aria-hidden="true"><i class="cube"></i><i class="pyramid"></i><i class="ball"></i></span>
+              <span class="topic-label">Geometry</span>
+            </button>
+            <button class="world-node topic-tile node-music" data-world="music" aria-label="Music">
+              <span class="topic-art music-art" aria-hidden="true"><i class="note-main">♪</i><i class="note-small">♫</i></span>
+              <span class="topic-label">Music</span>
+            </button>
+            <button class="world-node topic-tile node-chemistry" data-world="chemistry" aria-label="Chemistry">
+              <span class="topic-art chemistry-art" aria-hidden="true"><i class="flask-a"></i><i class="flask-b"></i><i class="bubble"></i></span>
+              <span class="topic-label">Chemistry</span>
+            </button>
+            <button class="world-node topic-tile node-physics" data-world="physics" aria-label="Physics">
+              <span class="topic-art physics-art" aria-hidden="true"><i class="magnet"></i><i class="spark">★</i></span>
+              <span class="topic-label">Physics</span>
+            </button>
+            <button class="world-node topic-tile node-nature" data-world="nature" aria-label="Nature">
+              <span class="topic-art nature-art" aria-hidden="true"><i class="stem"></i><i class="leaf-a"></i><i class="leaf-b"></i><i class="sun-dot"></i></span>
+              <span class="topic-label">Nature</span>
+            </button>
+            <button class="code-world-node topic-tile node-programming" data-world="programming" aria-label="Coding">
+              <span class="topic-art code-art" aria-hidden="true"><i class="robot-head"></i><i class="antenna"></i><i class="bot-body"></i></span>
+              <span class="topic-label">Coding</span>
+            </button>
+          </nav>
+
+          <!-- Retained for the existing progress engine; visually replaced by the castle. -->
           <div class="cloud cloud-a"></div><div class="cloud cloud-b"></div>
           <div class="island"></div>
-          <button class="world-node node-math active" data-world="math" aria-label="Math"><span class="world-icon icon-math" aria-hidden="true"></span></button>
-          <button class="world-node node-music" data-world="music" aria-label="Music"><span class="world-icon icon-music" aria-hidden="true"></span></button>
-          <button class="world-node node-physics" data-world="physics" aria-label="Physics"><span class="world-icon icon-physics" aria-hidden="true"></span></button>
-          <button class="world-node node-chemistry" data-world="chemistry" aria-label="Chemistry"><span class="world-icon icon-chemistry" aria-hidden="true"></span></button>
-          <button class="world-node node-nature" data-world="nature" aria-label="Nature"><span class="world-icon icon-nature" aria-hidden="true"></span></button>
-          <button class="code-world-node node-programming" data-world="programming" aria-label="Programming"><span class="world-icon icon-programming" aria-hidden="true"></span></button>
           <div class="mascot"><i></i><b></b><em></em></div>
           <i class="build-piece tree"></i>
           <i class="build-piece house"></i>
@@ -52,6 +90,16 @@
           <i class="build-piece sun"></i>
           <i class="build-piece flag"></i>
         </div>
+      </section>
+
+      <section class="topic-summary" id="topicSummary" data-world="math" aria-live="polite">
+        <div class="summary-visual" aria-hidden="true"></div>
+        <div class="summary-copy">
+          <span class="summary-kicker" id="summaryKicker">Geometry</span>
+          <h1 class="summary-title" id="summaryTitle">Shapes build a brighter world</h1>
+          <p class="summary-text" id="summaryText">Touch, match, mirror and turn shapes. Each lesson becomes a small visual puzzle.</p>
+        </div>
+        <button class="summary-cta" id="continueButton">Start Geometry</button>
       </section>
 
       <section class="activity-grid" id="activityGrid" aria-label="activities"></section>
@@ -78,5 +126,6 @@
   <script src="programming.js"></script>
   <script src="programming-challenges.js"></script>
   <script src="programming-round-reset.js"></script>
+  <script src="castle-ui.js"></script>
 </body>
 </html>
