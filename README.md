@@ -1,5 +1,18 @@
 # Skola
 
+> **Development has moved to TUREMI.**
+>
+> The Skola learning playground is now bundled offline in **TUREMI → Library → Kids Media → Learning**.
+> Future development belongs in [BIMfabrik/turemi](https://github.com/BIMfabrik/turemi).
+> The integration includes the six learning worlds, child-specific local progress,
+> adult previews and an independent Learning time allowance.
+>
+> See [the integration documentation](https://github.com/BIMfabrik/turemi/blob/main/docs/SKOLA_LEARNING.md).
+> Integration commit: `eab6c496c2034d9a22aa2235c0510e0328e2c5cc`.
+> This standalone repository is retained as a historical source snapshot; the app
+> no longer depends on its GitHub Pages deployment. Existing browser progress is
+> not automatically imported into a TUREMI child profile.
+
 A tablet-first **silent learning playground** for children roughly 5–12.
 
 The child-facing interface is designed to work before fluent reading: learning is communicated through visual targets, direct manipulation, animation, sound, rhythm, spatial relationships, and immediate feedback rather than written instructions.
